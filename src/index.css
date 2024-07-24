@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: 'Divergentes';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(./assets/fonts/Divergentes.ttf) format('ttf');
+  }
+}
+
 @layer utilities {
   .optimize-text-rendering {
     font-synthesis: none;
