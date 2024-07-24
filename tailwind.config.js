@@ -14,6 +14,9 @@ export default {
         'custom-text': 'rgba(255, 255, 255, 0.87)',
         'custom-background': '#242424',
       },
+      transitionProperty: {
+        'fill': 'fill',
+      }
     },
   },
   plugins: [],
