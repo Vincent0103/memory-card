@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import bgVideo from './assets/videos/bgvideo.mp4';
+import bgVideoMP4 from './assets/videos/bgvideo.mp4';
+import bgVideoWEBM from './assets/videos/bgvideo.webm';
 import btnClickAudioMP3 from './assets/audios/btn-click.mp3';
 import btnClickAudioOGG from './assets/audios/btn-click.ogg';
 import btnClickAudioWAV from './assets/audios/btn-click.wav';
@@ -25,13 +26,14 @@ function App() {
 
   return (
     <div className='fixed top-0 left-0 h-full w-full flex justify-center'>
-      <div className='absolute top-0 left-0 h-full w-full -z-10'>
+      <div className='absolute top-0 left-0 h-full w-full -z-10 bg-orange-400'>
         <video className='h-full w-full object-cover' autoPlay loop muted={!isMusicOn}>
-          <source src={bgVideo} type="video/mp4"/>
+          <source src={bgVideoWEBM} type="video/webm"/>
+          <source src={bgVideoMP4} type="video/mp4"/>
           Your browser does not support the video tag.
         </video>
       </div>
-      <audio ref={soundEffectAudioRef} className='hidden' controls muted={!isSoundEffectOn}>
+      <audio ref={soundEffectAudioRef} className='hidden'>
         <source src={btnClickAudioMP3} type="audio/mpeg"/>
         <source src={btnClickAudioOGG} type="audio/ogg"/>
         <source src={btnClickAudioWAV} type="audio/wav"/>
