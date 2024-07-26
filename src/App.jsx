@@ -1,8 +1,5 @@
 import { useRef, useState } from 'react';
 import bgVideo from './assets/videos/bgvideo.mp4';
-import bgAudioMP3 from './assets/audios/chainsaw-man-audio.mp3';
-import bgAudioOGG from './assets/audios/chainsaw-man-audio.ogg';
-import bgAudioWAV from './assets/audios/chainsaw-man-audio.wav';
 import btnClickAudioMP3 from './assets/audios/btn-click.mp3';
 import btnClickAudioOGG from './assets/audios/btn-click.ogg';
 import btnClickAudioWAV from './assets/audios/btn-click.wav';
@@ -34,12 +31,6 @@ function App() {
           Your browser does not support the video tag.
         </video>
       </div>
-      <audio className='hidden' controls>
-        <source src={bgAudioMP3} type="audio/mpeg"/>
-        <source src={bgAudioOGG} type="audio/ogg"/>
-        <source src={bgAudioWAV} type="audio/wav"/>
-        Your browser does not support the audio element.
-      </audio>
       <audio ref={soundEffectAudioRef} className='hidden' controls muted={!isSoundEffectOn}>
         <source src={btnClickAudioMP3} type="audio/mpeg"/>
         <source src={btnClickAudioOGG} type="audio/ogg"/>
