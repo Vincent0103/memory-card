@@ -5,7 +5,7 @@ const MenuTitle = () => (
     </h1>
     <h1
       className="text-black text-9xl font-divergentes absolute
-    top-1.5 left-1.5 whitespace-nowrap z-[-1] opacity-80 pointer-events-none
+    top-1.5 left-1.5 whitespace-nowrap z-[-1] opacity-50 pointer-events-none
     select-none"
     >
       MEMORY CHAINSAW
