@@ -6,22 +6,20 @@ import PlayBtn from "./PlayBtn";
 const MainMenu = ({
   soundEffectAudioRef,
   isSoundEffectOn,
-  hasGameStartedHandler,
+  handleGameStart,
   hasGameStarted,
 }) => {
   const handlePlayBtnClick = useCallback(() => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    hasGameStartedHandler(true);
-  }, [isSoundEffectOn, hasGameStartedHandler, soundEffectAudioRef]);
+    handleGameStart();
+  }, [isSoundEffectOn, handleGameStart, soundEffectAudioRef]);
 
   const onGameStartTransitioner = hasGameStarted
-    ? "transition-slide translate-z-front opacity-0"
-    : "";
+    ? "translate-z-front opacity-0 pointer-events-none -z-10"
+    : "absolute translate-z-idle opacity-1";
 
   return (
-    <div
-      className={`${onGameStartTransitioner} justify-items-center items-center row-start-2`}
-    >
+    <div className={`${onGameStartTransitioner} justify-items-center items-center row-start-2 transition-slide`}>
       <div className="relative w-min row-start-2 flex flex-col items-center gap-8">
         <MenuTitle />
         <PlayBtn clickHandler={handlePlayBtnClick} />

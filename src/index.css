@@ -27,6 +27,14 @@
   }
 
   .translate-z-front {
-    transform: perspective(1000px) translateZ(100px);
+    transform: perspective(1000px) translateZ(200px);
+  }
+
+  .translate-z-idle {
+    transform: perspective(1000px) translateZ(0);
+  }
+
+  .translate-z-back {
+    transform: perspective(1000px) translateZ(-200px);
   }
 }
