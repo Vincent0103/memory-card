@@ -3,6 +3,7 @@ import MainMenu from "./components/Menu/MainMenu";
 import BgVideo from "./components/BgVideo";
 import SettingBtn from "./components/SettingBtn";
 import SoundEffectAudio from "./components/SoundEffectAudio";
+import Card from "./components/Card";
 
 function App() {
   const soundEffectAudioRef = useRef(null);
@@ -24,7 +25,7 @@ function App() {
       <SoundEffectAudio audioRef={soundEffectAudioRef} />
       <BgVideo isMusicOn={isMusicOn} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
-        <MainMenu
+        {/* <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}
           hasGameStartedHandler={setHasGameStarted}
@@ -51,7 +52,8 @@ function App() {
               "M4.27 3L3 4.27L12 13.27V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V15.27L19.73 21L21 19.73L4.27 3M14 7H18V3H12V8.18L14 10.18Z"
             }
           />
-        </div>
+        </div> */}
+        <Card />
       </div>
     </div>
   );
