@@ -1,5 +1,5 @@
-import bgVideoMP4 from "../../assets/videos/bgvideo.mp4";
-import bgVideoWEBM from "../../assets/videos/bgvideo.webm";
+import bgVideoMP4 from "../assets/videos/bgvideo.mp4";
+import bgVideoWEBM from "../assets/videos/bgvideo.webm";
 
 const BgVideo = ({ isMusicOn }) => (
   <div className="absolute top-0 left-0 h-full w-full -z-10 bg-orange-950">

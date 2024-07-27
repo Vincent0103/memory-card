@@ -43,3 +43,5 @@
     "vitest": "^2.0.2"
   }
 }
+
+grid grid-rows-[80px_1fr_80px] 

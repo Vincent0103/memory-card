@@ -1,4 +1,4 @@
-const PlayBtn = ({ clickHandler }) => {
+const PlayBtn = ({ clickHandler }) => (
   <div onClick={clickHandler} className="group">
     <button
       className="transition-colors bg-zinc-200 w-[216px] h-[88px] rounded-lg shadow-lg
@@ -9,6 +9,6 @@ const PlayBtn = ({ clickHandler }) => {
       </p>
     </button>
   </div>
-};
+);
 
 export default PlayBtn;

@@ -1,6 +1,6 @@
-import btnClickAudioMP3 from "../../assets/audios/btn-click.mp3";
-import btnClickAudioOGG from "../../assets/audios/btn-click.ogg";
-import btnClickAudioWAV from "../../assets/audios/btn-click.wav";
+import btnClickAudioMP3 from "../assets/audios/btn-click.mp3";
+import btnClickAudioOGG from "../assets/audios/btn-click.ogg";
+import btnClickAudioWAV from "../assets/audios/btn-click.wav";
 
 const SoundEffectAudio = ({ audioRef }) => (
   <audio ref={audioRef} className="hidden">
