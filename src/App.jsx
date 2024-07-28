@@ -3,7 +3,7 @@ import MainMenu from "./components/Menu/MainMenu";
 import BgVideo from "./components/BgVideo";
 import SettingBtn from "./components/SettingBtn";
 import SoundEffectAudio from "./components/SoundEffectAudio";
-import MemoryGameContainer from "./components/Card";
+import Gameboard from "./components/Gameboard/Gameboard";
 
 function App() {
   const soundEffectAudioRef = useRef(null);
@@ -35,7 +35,7 @@ function App() {
           handleGameStart={handleGameStart}
           hasGameStarted={hasGameStarted}
         />
-        <MemoryGameContainer hasGameStarted={hasGameStarted} />
+        <Gameboard hasGameStarted={hasGameStarted} />
         <div className="row-start-3 justify-self-start ml-1 flex">
           <SettingBtn
             clickHandler={handleSoundEffectClick}
