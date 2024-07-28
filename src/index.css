@@ -37,4 +37,26 @@
   .translate-z-back {
     transform: perspective(1000px) translateZ(-200px);
   }
+
+  .return-down {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+
+  .return-up {
+    transform: perspective(1000px) rotateY(-180deg);
+  }
+
+  .transition-transform-slowly {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 500ms;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .hide-backface {
+    backface-visibility: hidden;
+  }
 }
