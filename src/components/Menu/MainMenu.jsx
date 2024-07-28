@@ -11,7 +11,7 @@ const MainMenu = ({
 }) => {
   const handlePlayBtnClick = useCallback(() => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    handleGameStart();
+    handleGameStart(false);
   }, [isSoundEffectOn, handleGameStart, soundEffectAudioRef]);
 
   const onGameStartTransitioner = hasGameStarted

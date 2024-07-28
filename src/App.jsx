@@ -9,6 +9,7 @@ function App() {
   const soundEffectAudioRef = useRef(null);
   const [isSoundEffectOn, setIsSoundEffectOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(false);
+
   const [hasGameStarted, setHasGameStarted] = useState(false);
 
   const handleMusicClick = useCallback(() => {
@@ -20,8 +21,8 @@ function App() {
     setIsSoundEffectOn((prev) => !prev);
   }, []);
 
-  const handleGameStart = () => {
-    setHasGameStarted(true);
+  const handleGameStart = (hasGameEnded) => {
+    setHasGameStarted(!hasGameEnded);
   };
 
   return (
@@ -35,7 +36,7 @@ function App() {
           handleGameStart={handleGameStart}
           hasGameStarted={hasGameStarted}
         />
-        <Gameboard hasGameStarted={hasGameStarted} />
+        <Gameboard hasGameStarted={hasGameStarted} handleGameStart={handleGameStart}/>
         <div className="row-start-3 justify-self-start ml-1 flex">
           <SettingBtn
             clickHandler={handleSoundEffectClick}

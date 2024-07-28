@@ -6,7 +6,7 @@ import Scoreboard from "./Scoreboard";
 import { produce } from "immer";
 
 methodsExpension();
-const Gameboard = ({ hasGameStarted }) => {
+const Gameboard = ({ hasGameStarted, handleGameStart }) => {
   const characterIds = useMemo(
     () => [170732, 170733, 170734, 170735, 174749, 174750, 174748],
     []
@@ -28,9 +28,17 @@ const Gameboard = ({ hasGameStarted }) => {
 
   const handleCardClick = (isBeingAnimated, characterId) => {
     if (isBeingAnimated && !isCardClicked) {
-      if (clickedCharacterIds.includes(characterId)) return;
+      if (clickedCharacterIds.includes(characterId)) {
+        setClickedCharacterIds([]);
+        setScores(
+          produce((draft) => {
+            draft.currentScore = 0;
+          })
+        );
+        handleGameStart(true);
+        return;
+      }
 
-      console.log('doing');
       setIsCardClicked(true);
 
       setClickedCharacterIds(
@@ -42,10 +50,14 @@ const Gameboard = ({ hasGameStarted }) => {
       setScores(
         produce((draft) => {
           draft.currentScore += 1;
-          if (draft.currentScore > draft.bestScore) draft.bestScore += 1;
+          if (draft.currentScore > draft.bestScore) {
+            draft.bestScore = draft.currentScore;
+          }
         })
       );
-    } else if (!isBeingAnimated) setIsCardClicked(false);
+    } else if (!isBeingAnimated) {
+      setIsCardClicked(false);
+    }
   };
 
   const onGameStartTransitioner = !hasGameStarted
