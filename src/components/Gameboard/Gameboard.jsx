@@ -1,21 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Card from "./Card";
 import methodsExpension from "../utils";
-
-const CardsContainer = ({ hasGameStarted, children }) => {
-  const onGameStartTransitioner = !hasGameStarted
-    ? "translate-z-back opacity-0 pointer-events-none -z-10"
-    : "absolute translate-z-idle opacity-1";
-
-  return (
-    <div
-      className={`${onGameStartTransitioner} row-start-2 flex flex-wrap justify-center gap-5 max-w-[50%] transition-slide
-      bg-black/60 p-8 rounded-xl backdrop-blur-2xl border border-white/50 shadow-2xl`}
-    >
-      {children}
-    </div>
-  );
-};
+import CardsContainer from "./CardsContainer";
+import Scoreboard from "./Scoreboard";
 
 methodsExpension();
 const Gameboard = ({ hasGameStarted }) => {
@@ -38,17 +25,27 @@ const Gameboard = ({ hasGameStarted }) => {
   };
 
   console.log(shuffledCharacterIds);
+
+  const onGameStartTransitioner = !hasGameStarted
+    ? "translate-z-back opacity-0 pointer-events-none"
+    : "translate-z-idle opacity-1";
   return (
-    <CardsContainer hasGameStarted={hasGameStarted}>
-      {shuffledCharacterIds.map((id, index) => (
-        <Card
-          key={index}
-          characterId={id}
-          isCardClicked={isCardClicked}
-          handleCardClick={handleCardClick}
-        />
-      ))}
-    </CardsContainer>
+    <div
+      className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
+      grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[80%] h-full`}
+    >
+      <CardsContainer hasGameStarted={hasGameStarted}>
+        {shuffledCharacterIds.map((id, index) => (
+          <Card
+            key={index}
+            characterId={id}
+            isCardClicked={isCardClicked}
+            handleCardClick={handleCardClick}
+          />
+        ))}
+      </CardsContainer>
+      <Scoreboard hasGameStarted={hasGameStarted} />
+    </div>
   );
 };
 
