@@ -38,12 +38,6 @@
     transform: perspective(1000px) translateZ(-200px);
   }
 
-  /* .transition-transform-slowly {
-    transition-property: transform;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 500ms;
-  } */
-
   @keyframes return-frontface-card {
     0% {
       transform: none;
@@ -91,11 +85,11 @@
   }
 
   .return-frontface-card {
-    animation: return-frontface-card 600ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
+    animation: return-frontface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
   }
 
   .return-backface-card {
-    animation: return-backface-card 600ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
+    animation: return-backface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
   }
 
   .preserve-3d {

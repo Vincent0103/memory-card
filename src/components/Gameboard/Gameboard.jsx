@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Card from "./Card";
 import methodsExpension from "../utils";
 
@@ -19,20 +19,34 @@ const CardsContainer = ({ hasGameStarted, children }) => {
 
 methodsExpension();
 const Gameboard = ({ hasGameStarted }) => {
-  const characterIds = [170732, 170733, 170734, 170735, 174749, 174750, 174748];
+  const characterIds = useMemo(
+    () => [170732, 170733, 170734, 170735, 174749, 174750, 174748],
+    []
+  );
+
   const [isCardClicked, setIsCardClicked] = useState(false);
+  const [shuffledCharacterIds, setShuffledCharacterIds] =
+    useState(characterIds);
+
+  useEffect(() => {
+    if (isCardClicked) setShuffledCharacterIds(characterIds.shuffle());
+  }, [characterIds, isCardClicked]);
 
   const handleCardClick = (isBeingAnimated) => {
     if (isBeingAnimated && !isCardClicked) setIsCardClicked(true);
     else if (!isBeingAnimated) setIsCardClicked(false);
-  }
+  };
 
+  console.log(shuffledCharacterIds);
   return (
     <CardsContainer hasGameStarted={hasGameStarted}>
-      {characterIds.shuffle().map((id, index) => (
-        <Card key={index} characterId={id}
-        isCardClicked={isCardClicked}
-        handleCardClick={handleCardClick} />
+      {shuffledCharacterIds.map((id, index) => (
+        <Card
+          key={index}
+          characterId={id}
+          isCardClicked={isCardClicked}
+          handleCardClick={handleCardClick}
+        />
       ))}
     </CardsContainer>
   );
