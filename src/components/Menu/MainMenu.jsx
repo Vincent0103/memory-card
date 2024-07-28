@@ -23,10 +23,10 @@ const MainMenu = ({
       <div className="relative w-min row-start-2 flex flex-col items-center gap-6">
         <MenuTitle />
         <PlayBtn clickHandler={handlePlayBtnClick} />
-        <div className="absolute max-w-[380px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
+        <div className="absolute max-w-[400px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
         top-[300px]">
           <p className="text-center drop-shadow-2xl my-4 mx-6">
-            For the best experience, please enable game music using the button below !
+            For the best experience, please enable game music using the melody button below !
           </p>
         </div>
       </div>
