@@ -1,15 +1,13 @@
 const methodsExpension = () => {
-  Array.prototype.shuffle = function () {
-    const lengthArray = Array.from({ length: this.length }, (_, i) => i);
-
-    const shuffledArray = [];
-    this.forEach(() => {
-      const index = Math.floor(Math.random() * lengthArray.length);
-      shuffledArray.push(lengthArray.splice(index), 1);
-    });
-
-    return shuffledArray;
+  // Fisher–Yates shuffle algorithm
+  Array.prototype.shuffle = function() {
+    for (let i = this.length - 1; i >= 0; i--) {
+      const j  = Math.floor(Math.random() * (i + 1));
+      [this[i], this[j]] = [this[j], this[i]]; // Swap elements
+    }
+    return this;
   }
+
 }
 
 export default methodsExpension;
