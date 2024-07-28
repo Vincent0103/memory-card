@@ -25,7 +25,7 @@ const MainMenu = ({
         <PlayBtn clickHandler={handlePlayBtnClick} />
         <div className="absolute max-w-[400px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
         top-[300px]">
-          <p className="text-center drop-shadow-2xl my-4 mx-6">
+          <p className="text-center drop-shadow-lg my-4 mx-6">
             For the best experience, please enable game music using the melody button below !
           </p>
         </div>
