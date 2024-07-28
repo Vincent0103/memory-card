@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Card from "./Card";
+import methodsExpension from "../utils";
 
 const CardsContainer = ({ hasGameStarted, children }) => {
   const onGameStartTransitioner = !hasGameStarted
@@ -16,17 +17,19 @@ const CardsContainer = ({ hasGameStarted, children }) => {
   );
 };
 
+methodsExpension();
 const Gameboard = ({ hasGameStarted }) => {
   const characterIds = [170732, 170733, 170734, 170735, 174749, 174750, 174748];
   const [isCardClicked, setIsCardClicked] = useState(false);
 
-  const handleCardClick = () => {
-    setIsCardClicked(!isCardClicked);
+  const handleCardClick = (isBeingAnimated) => {
+    if (isBeingAnimated && !isCardClicked) setIsCardClicked(true);
+    else if (!isBeingAnimated) setIsCardClicked(false);
   }
 
   return (
     <CardsContainer hasGameStarted={hasGameStarted}>
-      {characterIds.map((id, index) => (
+      {characterIds.shuffle().map((id, index) => (
         <Card key={index} characterId={id}
         isCardClicked={isCardClicked}
         handleCardClick={handleCardClick} />

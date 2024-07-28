@@ -38,18 +38,60 @@
     transform: perspective(1000px) translateZ(-200px);
   }
 
-  .return-down {
-    transform: perspective(1000px) rotateY(180deg);
-  }
-
-  .return-up {
-    transform: perspective(1000px) rotateY(-180deg);
-  }
-
-  .transition-transform-slowly {
+  /* .transition-transform-slowly {
     transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 500ms;
+  } */
+
+  @keyframes return-frontface-card {
+    0% {
+      transform: none;
+      opacity: 1;
+    }
+    40% {
+      transform: perspective(1000px) rotateY(180deg);
+      opacity: 1;
+    }
+    90% {
+      transform: perspective(1000px) rotateY(180deg) translateX(-30%);
+      opacity: 0;
+    }
+    100% {
+      transform: perspective(1000px) rotateY(180deg) translateX(-30%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes return-backface-card {
+    0% {
+      transform: perspective(1000px) rotateY(180deg);
+      opacity: 1;
+    }
+    40% {
+      transform: perspective(1000px);
+      opacity: 1;
+    }
+    90% {
+      transform: perspective(1000px) translateX(-30%);
+      opacity: 0;
+    }
+    100% {
+      transform: perspective(1000px) translateX(-30%);
+      opacity: 0;
+    }
+  }
+
+  .rotate-y-full {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+
+  .return-frontface-card {
+    animation: return-frontface-card 1s cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
+  }
+
+  .return-backface-card {
+    animation: return-backface-card 1s cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
   }
 
   .preserve-3d {
