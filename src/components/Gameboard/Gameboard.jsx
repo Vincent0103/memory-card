@@ -13,18 +13,16 @@ const Gameboard = ({ hasGameStarted }) => {
 
   const [isCardClicked, setIsCardClicked] = useState(false);
   const [shuffledCharacterIds, setShuffledCharacterIds] =
-    useState(characterIds);
+    useState([...characterIds]);
 
   useEffect(() => {
-    if (isCardClicked) setShuffledCharacterIds(characterIds.shuffle());
+    if (isCardClicked) setShuffledCharacterIds([...characterIds].shuffle());
   }, [characterIds, isCardClicked]);
 
   const handleCardClick = (isBeingAnimated) => {
     if (isBeingAnimated && !isCardClicked) setIsCardClicked(true);
     else if (!isBeingAnimated) setIsCardClicked(false);
   };
-
-  console.log(shuffledCharacterIds);
 
   const onGameStartTransitioner = !hasGameStarted
     ? "translate-z-back opacity-0 pointer-events-none"

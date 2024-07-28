@@ -58,6 +58,11 @@ const Card = ({ handleCardClick, isCardClicked, characterId }) => {
                 alt={`Picture of ${characterImgs.name}`}
               />
             </picture>
+            <div className="absolute bottom-0 w-full h-[40%]
+            bg-gradient-to-t from-zinc-950 to-zinc-950/0
+            flex justify-center items-end">
+              <h1 className="text-white text-nowrap mb-4">{characterImgs.name?.split(' ')[0] || ''}</h1>
+            </div>
           </div>
           <div
             className={`w-48 h-72 rounded-md shadow-sm bg-gradient-to-br from-zinc-700 to-zinc-900

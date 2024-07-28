@@ -1,4 +1,4 @@
-const CardsContainer = ({ hasGameStarted, children }) => {
+const CardsContainer = ({ children }) => {
   return (
     <div
       className="flex flex-wrap justify-center gap-5 bg-black/60 p-8

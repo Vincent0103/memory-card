@@ -7,7 +7,6 @@ const methodsExpension = () => {
     }
     return this;
   }
-
 }
 
 export default methodsExpension;
