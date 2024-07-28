@@ -1,3 +1,4 @@
+// Expands methods from to Array prototype upon calling this function
 const methodsExpension = () => {
   // Fisher–Yates shuffle algorithm
   Array.prototype.shuffle = function() {
