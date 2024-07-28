@@ -1,4 +1,4 @@
-const Scoreboard = ({ hasGameStarted, currentScore = 0, bestScore = 0 }) => (
+const Scoreboard = ({ hasGameStarted, currentScore, bestScore }) => (
   hasGameStarted
   &&
   <div className="text-center font-bold text-white/90

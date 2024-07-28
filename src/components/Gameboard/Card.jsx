@@ -35,7 +35,7 @@ const Card = ({ handleCardClick, isCardClicked, characterId }) => {
   }, [characterId, doFetch]);
 
   return (
-    <div className="row-start-2" onClick={() => handleCardClick(true)}>
+    <div className="row-start-2" onClick={() => handleCardClick(true, characterId)}>
       <Tilt
         glareEnable={!isCardClicked}
         glareMaxOpacity={0.5}

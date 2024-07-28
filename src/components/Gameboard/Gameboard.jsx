@@ -3,6 +3,7 @@ import Card from "./Card";
 import methodsExpension from "../utils";
 import CardsContainer from "./CardsContainer";
 import Scoreboard from "./Scoreboard";
+import { produce } from "immer";
 
 methodsExpension();
 const Gameboard = ({ hasGameStarted }) => {
@@ -12,16 +13,39 @@ const Gameboard = ({ hasGameStarted }) => {
   );
 
   const [isCardClicked, setIsCardClicked] = useState(false);
-  const [shuffledCharacterIds, setShuffledCharacterIds] =
-    useState([...characterIds]);
+  const [shuffledCharacterIds, setShuffledCharacterIds] = useState([
+    ...characterIds,
+  ]);
+  const [scores, setScores] = useState({
+    currentScore: 0,
+    bestScore: 0,
+  });
+  const [clickedCharacterIds, setClickedCharacterIds] = useState([]);
 
   useEffect(() => {
     if (isCardClicked) setShuffledCharacterIds([...characterIds].shuffle());
   }, [characterIds, isCardClicked]);
 
-  const handleCardClick = (isBeingAnimated) => {
-    if (isBeingAnimated && !isCardClicked) setIsCardClicked(true);
-    else if (!isBeingAnimated) setIsCardClicked(false);
+  const handleCardClick = (isBeingAnimated, characterId) => {
+    if (isBeingAnimated && !isCardClicked) {
+      if (clickedCharacterIds.includes(characterId)) return;
+
+      console.log('doing');
+      setIsCardClicked(true);
+
+      setClickedCharacterIds(
+        produce((draft) => {
+          draft.push(characterId);
+        })
+      );
+
+      setScores(
+        produce((draft) => {
+          draft.currentScore += 1;
+          if (draft.currentScore > draft.bestScore) draft.bestScore += 1;
+        })
+      );
+    } else if (!isBeingAnimated) setIsCardClicked(false);
   };
 
   const onGameStartTransitioner = !hasGameStarted
@@ -42,7 +66,7 @@ const Gameboard = ({ hasGameStarted }) => {
           />
         ))}
       </CardsContainer>
-      <Scoreboard hasGameStarted={hasGameStarted} />
+      <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
     </div>
   );
 };
