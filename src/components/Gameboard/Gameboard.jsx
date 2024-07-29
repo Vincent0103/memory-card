@@ -26,7 +26,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     }))
   );
 
-  const [doShuffleCards, setDoShuffleCards] = useState(false);
+  const [doShuffleCards, setDoShuffleCards] = useState(true);
   const [isCardClicked, setIsCardClicked] = useState(false);
 
   const [shuffledCharacterIds, setShuffledCharacterIds] = useState([
@@ -40,7 +40,10 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
   });
 
   useEffect(() => {
-    if (doShuffleCards) setShuffledCharacterIds([...characterIds].shuffle());
+    if (doShuffleCards) {
+      setShuffledCharacterIds([...characterIds].shuffle());
+      setDoShuffleCards(false);
+    }
   }, [characterIds, doShuffleCards]);
 
   const handleDoShuffleCards = (canShuffleCards) => {
@@ -154,6 +157,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
         handleClickedCharacterIds();
         handleScores(true);
         handleGameStart(true);
+        setIsCardClicked(true);
         return;
       }
 
@@ -164,7 +168,6 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
       handleScores(false);
     } else if (!isBeingAnimated) {
       setIsCardClicked(false);
-      handleDoShuffleCards(false);
     }
   };
 
