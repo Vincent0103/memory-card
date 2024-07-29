@@ -28,8 +28,18 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
   }, [characterIds, isCardClicked]);
 
   const playAudio = (audioFiles) => {
-    const audio = new Audio(audioFiles);
-    audio.play();
+    if (audioFiles.endsWith(".mp4")) {
+      const audio = new Audio(audioFiles);
+      audio.play();
+    } else if (audioFiles.endsWith(".wav")) {
+      const audio = new Audio(audioFiles);
+      audio.play();
+    } else if (audioFiles.endsWith(".mp3")) {
+      const audio = new Audio(audioFiles);
+      audio.play();
+    } else {
+      console.log("Invalid audio file format");
+    }
   }
 
   const handleCardClick = (isBeingAnimated, characterId) => {

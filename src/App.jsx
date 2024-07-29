@@ -7,21 +7,25 @@ import AudioJSX from "./components/utils/Audio";
 import btnClickAudioMP3 from "./assets/audios/btn-click.mp3";
 import btnClickAudioOGG from "./assets/audios/btn-click.ogg";
 import btnClickAudioWAV from "./assets/audios/btn-click.wav";
-import easyMusic from "./assets/audios/music/buddy.mp3";
+import easyMusicMP3 from "./assets/audios/music/buddy.mp3";
+import easyMusicWAV from "./assets/audios/music/buddy.wav";
 
 
 function App() {
+  const prevMusicRef = useRef(null);
+  const musicRef = useRef(null);
   const soundEffectAudioRef = useRef(null);
   const [isSoundEffectOn, setIsSoundEffectOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(false);
-  const [musicDifficulty, setMusicDifficulty] = useState(null);
+  const [musicSources, setMusicSources] = useState(null);
 
   const [hasGameStarted, setHasGameStarted] = useState(false);
 
   const handleMusicClick = useCallback(() => {
-    setIsMusicOn((prev) => !prev);
+    setIsMusicOn(!isMusicOn);
+    musicRef.current.muted = isMusicOn;
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-  }, [isSoundEffectOn]);
+  }, [isSoundEffectOn, isMusicOn]);
 
   const handleSoundEffectClick = useCallback(() => {
     setIsSoundEffectOn((prev) => !prev);
@@ -33,11 +37,7 @@ function App() {
 
   const handleMusicDifficulty = (difficulty) => {
     if (difficulty === 'easy') {
-      setMusicDifficulty(easyMusic);
-      if (isMusicOn) {
-        const audio = new Audio(easyMusic);
-        audio.play();
-      }
+      setMusicSources([easyMusicMP3, easyMusicWAV]);
     }
   }
 
@@ -47,7 +47,12 @@ function App() {
         audioRef={soundEffectAudioRef}
         audioFileUrls={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
       />
-      <BgVideo isMusicOn={isMusicOn} musicDifficulty={musicDifficulty} />
+      <AudioJSX
+        audioRef={musicRef}
+        audioFileUrls={musicSources}
+        isMusicOn={isMusicOn}
+      />
+      <BgVideo isMusicOn={isMusicOn} musicSources={musicSources} hasGameStarted={hasGameStarted} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
