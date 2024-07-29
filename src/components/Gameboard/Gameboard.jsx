@@ -16,7 +16,8 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
   // 174745, 170765, 222935, 184168, 174751, 177862,
   const characterIds = useMemo(
     () => [
-      170732, 170733, 170734, 170735, 174749,
+      170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
+      174745, 170765, 222935, 184168, 174751, 177862,
     ],
     []
   );
@@ -43,12 +44,19 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     bestScore: 0,
   });
 
+  const [difficultyData, setDifficultyData] = useState({
+    difficulty: "easy",
+    visibleCards: 4,
+  });
+
   useEffect(() => {
     if (doShuffleCards) {
-      setShuffledCharacterIds([...characterIds].shuffle());
+      setShuffledCharacterIds(
+        [...characterIds].shuffle().splice(0, difficultyData.visibleCards)
+      );
       setDoShuffleCards(false);
     }
-  }, [characterIds, doShuffleCards]);
+  }, [characterIds, doShuffleCards, difficultyData.visibleCards]);
 
   const handleDoShuffleCards = (canShuffleCards) => {
     setDoShuffleCards(canShuffleCards);
@@ -176,6 +184,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     cardsShuffleAudioRef.current.play();
     handleClickedCharacterIds(characterId);
     handleScores(false);
+    handleDifficulty();
   };
 
   const handleIncorrectGuess = () => {
@@ -184,40 +193,61 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     handleGameStart(true);
   };
 
+  const handleDifficulty = () => {
+    const currentRounds = clickedCharacterIds.length + 1;
+    let difficulty = null;
+    let visibleCards = 0;
+    if (currentRounds >= 1 && currentRounds < 5) {
+      difficulty = "easy";
+      visibleCards = 4;
+    } else if (currentRounds >= 5 && currentRounds < 13) {
+      difficulty = "medium";
+      visibleCards = 7;
+    } else if (currentRounds >= 13 && currentRounds < 22) {
+      difficulty = "hard";
+      visibleCards = 12;
+    }
+
+    console.log(difficultyData);
+    setDifficultyData({ difficulty, visibleCards });
+  };
+
   const onGameStartTransitioner = !hasGameStarted
     ? "translate-z-back opacity-0 pointer-events-none"
     : "translate-z-idle opacity-1";
 
   return (
-    <div
-      className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
-      grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[80%] h-full`}
-    >
-      <Audio
-        audioRef={cardsShuffleAudioRef}
-        audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
-        isOn={isSoundEffectOn}
-      />
-      <CardsContainer hasGameStarted={hasGameStarted}>
-        {shuffledCharacterIds.map((shuffledId, index) => {
-          const characterIndex = characterImgs.findIndex(
-            ({ id }) => id === shuffledId
-          );
-          const currentCharacterImg = characterImgs[characterIndex];
+    <>
+      <div
+        className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
+        grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[80%] h-full`}
+      >
+        <Audio
+          audioRef={cardsShuffleAudioRef}
+          audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
+          isOn={isSoundEffectOn}
+        />
+        <CardsContainer hasGameStarted={hasGameStarted}>
+          {shuffledCharacterIds.map((shuffledId, index) => {
+            const characterIndex = characterImgs.findIndex(
+              ({ id }) => id === shuffledId
+            );
+            const currentCharacterImg = characterImgs[characterIndex];
 
-          return (
-            <Card
-              key={index}
-              characterImg={currentCharacterImg}
-              isCardClicked={isCardClicked}
-              handleCardClick={handleCardClick}
-              handleDoShuffleCards={handleDoShuffleCards}
-            />
-          );
-        })}
-      </CardsContainer>
-      <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
-    </div>
+            return (
+              <Card
+                key={index}
+                characterImg={currentCharacterImg}
+                isCardClicked={isCardClicked}
+                handleCardClick={handleCardClick}
+                handleDoShuffleCards={handleDoShuffleCards}
+              />
+            );
+          })}
+        </CardsContainer>
+        <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
+      </div>
+    </>
   );
 };
 
