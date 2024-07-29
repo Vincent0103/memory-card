@@ -1,7 +1,10 @@
-const AudioJSX = ({ audioRef, audioFiles }) => (
+import { getAudioExtension } from "./utils";
+
+const AudioJSX = ({ audioRef, audioFileUrls }) => (
   <audio ref={audioRef} className="hidden">
-    {audioFiles.map((file, i) => {
-      return <source key={i} src={file} type={`audio/${extension}`} />;
+    {audioFileUrls.map((fileUrl, i) => {
+      const extension = getAudioExtension(fileUrl);
+      return <source key={i} src={fileUrl} type={`audio/${extension}`} />;
     })}
     Your browser does not support the audio element
   </audio>

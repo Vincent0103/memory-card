@@ -45,7 +45,7 @@ function App() {
     <div className="absolute top-0 left-0 w-full h-full">
       <AudioJSX
         audioRef={soundEffectAudioRef}
-        audioFiles={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
+        audioFileUrls={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
       />
       <BgVideo isMusicOn={isMusicOn} musicDifficulty={musicDifficulty} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
