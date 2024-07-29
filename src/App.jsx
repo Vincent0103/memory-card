@@ -23,7 +23,7 @@ function App() {
 
   const handleMusicClick = useCallback(() => {
     setIsMusicOn(!isMusicOn);
-    musicRef.current.muted = isMusicOn;
+    console.log(isSoundEffectOn)
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
   }, [isSoundEffectOn, isMusicOn]);
 
@@ -46,13 +46,17 @@ function App() {
       <AudioJSX
         audioRef={soundEffectAudioRef}
         audioFileUrls={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
+        isOn={isSoundEffectOn}
       />
       <AudioJSX
         audioRef={musicRef}
         audioFileUrls={musicSources}
-        isMusicOn={isMusicOn}
+        isOn={isMusicOn}
+        hasGameStarted={hasGameStarted}
+        hasLoop={true}
+        isHandlingMusic={true}
       />
-      <BgVideo isMusicOn={isMusicOn} musicSources={musicSources} hasGameStarted={hasGameStarted} />
+      <BgVideo isMusicOn={isMusicOn} hasGameStarted={hasGameStarted} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}

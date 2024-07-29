@@ -1,21 +1,19 @@
 import { useEffect, useState, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 
-const Card = ({ handleCardClick, isCardClicked, characterId }) => {
-  const [doFetch, setDoFetch] = useState(true);
+const Card = ({ handleCardClick, isCardClicked, characterId, doFetch, handleDoFetch }) => {
   const [characterImgs, setCharacterImgs] = useState({
     name: null,
     jpg: null,
     webp: null,
   });
 
-  // Cache to store fetched characterData
   const cache = useRef({});
 
   useEffect(() => {
     const fetchCharacter = async () => {
       if (cache.current[characterId]) {
-        setCharacterImgs(cache.current[characterId]);
+        setCharacterImgs(cache.current[characterId])
       } else {
         try {
           const response = await fetch(
@@ -41,9 +39,9 @@ const Card = ({ handleCardClick, isCardClicked, characterId }) => {
 
     if (doFetch) {
       fetchCharacter();
-      setDoFetch(false);
+      handleDoFetch(false);
     }
-  }, [characterId, doFetch]);
+  }, [characterId, doFetch, handleDoFetch]);
 
   return (
     <div className="row-start-2" onClick={() => handleCardClick(true, characterId)}>
@@ -58,7 +56,7 @@ const Card = ({ handleCardClick, isCardClicked, characterId }) => {
           <div
             className={`w-48 h-72 rounded-md shadow-sm bg-red-100 overflow-hidden border-2 border-black
           relative preserve-3d ${isCardClicked && "return-frontface-card"} hide-backface select-none`}
-          onAnimationIteration={() => setDoFetch(true)}
+          onAnimationIteration={() => handleDoFetch(true)}
           onAnimationEnd={() => handleCardClick(false)}
           >
             <picture>
