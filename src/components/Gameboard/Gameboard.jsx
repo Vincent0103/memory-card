@@ -68,11 +68,11 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
             setTimeout(async () => {
               resolve(await fetchData(retries - 1, delay));
             }, delay);
-          })
+          });
         } else {
           console.error("Could not fetch character: ", error);
         }
-      }
+      };
 
       const fetchData = async (retries, delay) => {
         try {
@@ -83,17 +83,24 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
           let data = await response.json();
           data = data.data;
           if (!data) {
-            return retry(retries, delay, "Too many api calls, status code: 429");
+            return retry(
+              retries,
+              delay,
+              "Too many api calls, status code: 429"
+            );
           }
 
           return data;
         } catch (error) {
           return retry(retries, delay, error);
         }
-      }
+      };
 
       const index = characterImgs.findIndex(({ id }) => id === characterId);
-      if (index === -1) console.error(`Could not fetch character with a bad id: ${characterId}`);
+      if (index === -1)
+        console.error(
+          `Could not fetch character with a bad id: ${characterId}`
+        );
 
       const retries = 3;
       const delay = 500;
@@ -151,24 +158,26 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     }
   };
 
-  const handleCardClick = (isBeingAnimated, characterId) => {
-    if (isBeingAnimated && !isCardClicked) {
-      if (clickedCharacterIds.includes(characterId)) {
-        handleClickedCharacterIds();
-        handleScores(true);
-        handleGameStart(true);
-        setIsCardClicked(true);
-        return;
-      }
+  const handleCardClick = (animate, characterId) => {
+    if (!animate) setIsCardClicked(false);
+    if (isCardClicked) return;
 
-      cardsShuffleAudioRef.current.play();
-      setIsCardClicked(true);
+    if (clickedCharacterIds.includes(characterId)) handleIncorrectGuess();
+    else handleCorrectGuess(characterId);
 
-      handleClickedCharacterIds(characterId);
-      handleScores(false);
-    } else if (!isBeingAnimated) {
-      setIsCardClicked(false);
-    }
+    setIsCardClicked(true);
+  };
+
+  const handleCorrectGuess = (characterId) => {
+    cardsShuffleAudioRef.current.play();
+    handleClickedCharacterIds(characterId);
+    handleScores(false);
+  };
+
+  const handleIncorrectGuess = () => {
+    handleClickedCharacterIds();
+    handleScores(true);
+    handleGameStart(true);
   };
 
   const onGameStartTransitioner = !hasGameStarted
