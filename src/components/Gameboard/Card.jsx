@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 
 const Card = ({ handleCardClick, isCardClicked, characterId }) => {
@@ -9,22 +9,33 @@ const Card = ({ handleCardClick, isCardClicked, characterId }) => {
     webp: null,
   });
 
+  // Cache to store fetched characterData
+  const cache = useRef({});
+
   useEffect(() => {
     const fetchCharacter = async () => {
-      try {
-        const response = await fetch(
-          // use jikan api to query characters
-          `https://api.jikan.moe/v4/characters/${characterId}/full`
-        );
-        let data = await response.json();
-        data = data.data;
-        setCharacterImgs({
-          name: data.name,
-          jpg: data.images.jpg.image_url,
-          webp: data.images.webp.image_url,
-        });
-      } catch (error) {
-        console.error("Could not fetch character: ", error);
+      if (cache.current[characterId]) {
+        setCharacterImgs(cache.current[characterId]);
+      } else {
+        try {
+          const response = await fetch(
+            // use jikan api to query characters
+            `https://api.jikan.moe/v4/characters/${characterId}/full`
+          );
+          let data = await response.json();
+          data = data.data;
+
+          const characterData = {
+            name: data.name,
+            jpg: data.images.jpg.image_url,
+            webp: data.images.webp.image_url,
+          }
+
+          cache.current[characterId] = characterData;
+          setCharacterImgs(characterData);
+        } catch (error) {
+          console.error("Could not fetch character: ", error);
+        }
       }
     };
 
