@@ -12,8 +12,12 @@ methodsExpension();
 const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
   const cardsShuffleAudioRef = useRef(null);
 
+  // ids: 170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
+  // 174745, 170765, 222935, 184168, 174751, 177862,
   const characterIds = useMemo(
-    () => [170732, 170733, 170734, 170735, 174749, 174750, 174748],
+    () => [
+      170732, 170733, 170734, 170735, 174749,
+    ],
     []
   );
 

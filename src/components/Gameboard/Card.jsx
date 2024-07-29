@@ -29,7 +29,7 @@ const Card = ({ handleCardClick, isCardClicked, characterImg, handleDoShuffleCar
             <div className="absolute bottom-0 w-full h-[40%]
             bg-gradient-to-t from-zinc-950 to-zinc-950/0
             flex justify-center items-end">
-              <h1 className="text-white text-nowrap mb-4">{characterImg.name?.split(' ')[0] || ''}</h1>
+              <h1 className="text-white text-nowrap mb-4">{characterImg.name || ''}</h1>
             </div>
           </div>
           <div
