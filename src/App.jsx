@@ -69,6 +69,7 @@ function App() {
         <Gameboard
           hasGameStarted={hasGameStarted}
           handleGameStart={handleGameStart}
+          isSoundEffectOn={isSoundEffectOn}
         />
         <div className="row-start-3 justify-self-start ml-1 flex">
           <SettingBtn

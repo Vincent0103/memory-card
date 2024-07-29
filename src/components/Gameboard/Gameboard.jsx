@@ -1,18 +1,21 @@
-import { useEffect, useMemo, useState } from "react";
-import cardsShuffled from "../../assets/audios/cards-shuffled.wav";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { produce } from "immer";
 import Card from "./Card";
 import methodsExpension from "../utils/utils";
 import CardsContainer from "./CardsContainer";
 import Scoreboard from "./Scoreboard";
-import { produce } from "immer";
+import Audio from "../utils/Audio";
+import cardsShuffledMP3 from "../../assets/audios/cards-shuffled.mp3";
+import cardsShuffledWAV from "../../assets/audios/cards-shuffled.wav";
 
 methodsExpension();
-const Gameboard = ({ hasGameStarted, handleGameStart }) => {
+const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
+  const cardsShuffleAudioRef = useRef(null);
   const characterIds = useMemo(
     () => [170732, 170733, 170734, 170735, 174749, 174750, 174748],
     []
   );
-  
+
   const [doFetch, setDoFetch] = useState(true);
   const [isCardClicked, setIsCardClicked] = useState(false);
 
@@ -26,52 +29,22 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
     bestScore: 0,
   });
 
-
   useEffect(() => {
     if (isCardClicked) setShuffledCharacterIds([...characterIds].shuffle());
   }, [characterIds, isCardClicked]);
-
-  const playAudio = (audioFiles) => {
-    if (audioFiles.endsWith(".mp4")) {
-      const audio = new Audio(audioFiles);
-      audio.play();
-    } else if (audioFiles.endsWith(".wav")) {
-      const audio = new Audio(audioFiles);
-      audio.play();
-    } else if (audioFiles.endsWith(".mp3")) {
-      const audio = new Audio(audioFiles);
-      audio.play();
-    } else {
-      console.log("Invalid audio file format");
-    }
-  };
 
   const handleDoFetch = (canFetch) => {
     setDoFetch(canFetch);
   };
 
-  const handleCardClick = (isBeingAnimated, characterId) => {
-    if (isBeingAnimated && !isCardClicked) {
-      if (clickedCharacterIds.includes(characterId)) {
-        setClickedCharacterIds([]);
-        setScores(
-          produce((draft) => {
-            draft.currentScore = 0;
-          })
-        );
-        handleGameStart(true);
-        return;
-      }
-
-      playAudio(cardsShuffled);
-      setIsCardClicked(true);
-
-      setClickedCharacterIds(
+  const handleScores = (hasLost) => {
+    if (hasLost) {
+      setScores(
         produce((draft) => {
-          draft.push(characterId);
+          draft.currentScore = 0;
         })
       );
-
+    } else {
       setScores(
         produce((draft) => {
           draft.currentScore += 1;
@@ -80,6 +53,35 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
           }
         })
       );
+    }
+  };
+
+  const handleClickedCharacterIds = (characterId) => {
+    if (characterId) {
+      setClickedCharacterIds(
+        produce((draft) => {
+          draft.push(characterId);
+        })
+      );
+    } else {
+      setClickedCharacterIds([]);
+    }
+  };
+
+  const handleCardClick = (isBeingAnimated, characterId) => {
+    if (isBeingAnimated && !isCardClicked) {
+      if (clickedCharacterIds.includes(characterId)) {
+        handleClickedCharacterIds();
+        handleScores(true);
+        handleGameStart(true);
+        return;
+      }
+
+      cardsShuffleAudioRef.current.play();
+      setIsCardClicked(true);
+
+      handleClickedCharacterIds(characterId);
+      handleScores(false);
     } else if (!isBeingAnimated) {
       setIsCardClicked(false);
     }
@@ -94,6 +96,11 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
       className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
       grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[80%] h-full`}
     >
+      <Audio
+        audioRef={cardsShuffleAudioRef}
+        audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
+        isOn={isSoundEffectOn}
+      />
       <CardsContainer hasGameStarted={hasGameStarted}>
         {shuffledCharacterIds.map((id, index) => (
           <Card
