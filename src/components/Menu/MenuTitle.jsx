@@ -1,6 +1,6 @@
 const MenuTitle = () => (
   <div>
-    <h1 className="text-white text-9xl font-divergentes font-extrabold text-nowrap">
+    <h1 className="text-white/90 text-9xl font-divergentes font-extrabold text-nowrap">
       MEMORY CHAINSAW
     </h1>
     <h1

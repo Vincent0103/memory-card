@@ -7,6 +7,7 @@ import Scoreboard from "./Scoreboard";
 import Audio from "../utils/Audio";
 import cardsShuffledMP3 from "../../assets/audios/cards-shuffled.mp3";
 import cardsShuffledWAV from "../../assets/audios/cards-shuffled.wav";
+import DifficultyDisplayer from "./DifficultyDisplayer";
 
 methodsExpension();
 const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
@@ -227,6 +228,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
           audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
           isOn={isSoundEffectOn}
         />
+        <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
         <CardsContainer hasGameStarted={hasGameStarted}>
           {shuffledCharacterIds.map((shuffledId, index) => {
             const characterIndex = characterImgs.findIndex(
@@ -241,11 +243,12 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
                 isCardClicked={isCardClicked}
                 handleCardClick={handleCardClick}
                 handleDoShuffleCards={handleDoShuffleCards}
+                currentRound={clickedCharacterIds.length + 1}
               />
             );
           })}
         </CardsContainer>
-        <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
+        <DifficultyDisplayer difficulty={difficultyData.difficulty}/>
       </div>
     </>
   );

@@ -38,6 +38,10 @@
     transform: perspective(1000px) translateZ(-200px);
   }
 
+  .translate-card-front {
+    transform: perspective(1000px) translateZ(500px);
+  }
+
   @keyframes return-frontface-card {
     0% {
       transform: none;
