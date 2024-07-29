@@ -8,11 +8,13 @@ const MainMenu = ({
   isSoundEffectOn,
   handleGameStart,
   hasGameStarted,
+  handleMusicDifficulty,
 }) => {
   const handlePlayBtnClick = useCallback(() => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
     handleGameStart(false);
-  }, [isSoundEffectOn, handleGameStart, soundEffectAudioRef]);
+    handleMusicDifficulty('easy');
+  }, [isSoundEffectOn, handleGameStart, soundEffectAudioRef, handleMusicDifficulty]);
 
   const onGameStartTransitioner = hasGameStarted
     ? "translate-z-front opacity-0 pointer-events-none -z-10"

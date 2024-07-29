@@ -2,13 +2,19 @@ import { useState, useRef, useCallback } from "react";
 import MainMenu from "./components/Menu/MainMenu";
 import BgVideo from "./components/BgVideo";
 import SettingBtn from "./components/SettingBtn";
-import SoundEffectAudio from "./components/SoundEffectAudio";
 import Gameboard from "./components/Gameboard/Gameboard";
+import AudioJSX from "./components/utils/Audio";
+import btnClickAudioMP3 from "./assets/audios/btn-click.mp3";
+import btnClickAudioOGG from "./assets/audios/btn-click.ogg";
+import btnClickAudioWAV from "./assets/audios/btn-click.wav";
+import easyMusic from "./assets/audios/music/buddy.mp3";
+
 
 function App() {
   const soundEffectAudioRef = useRef(null);
   const [isSoundEffectOn, setIsSoundEffectOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(false);
+  const [musicDifficulty, setMusicDifficulty] = useState(null);
 
   const [hasGameStarted, setHasGameStarted] = useState(false);
 
@@ -25,18 +31,36 @@ function App() {
     setHasGameStarted(!hasGameEnded);
   };
 
+  const handleMusicDifficulty = (difficulty) => {
+    if (difficulty === 'easy') {
+      setMusicDifficulty(easyMusic);
+      if (isMusicOn) {
+        const audio = new Audio(easyMusic);
+        audio.play();
+      }
+    }
+  }
+
   return (
     <div className="absolute top-0 left-0 w-full h-full">
-      <SoundEffectAudio audioRef={soundEffectAudioRef} />
-      <BgVideo isMusicOn={isMusicOn} />
+      <AudioJSX
+        audioRef={soundEffectAudioRef}
+        audioFiles={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
+      />
+      <BgVideo isMusicOn={isMusicOn} musicDifficulty={musicDifficulty} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}
           handleGameStart={handleGameStart}
           hasGameStarted={hasGameStarted}
+          setIsMusicOn={setIsMusicOn}
+          handleMusicDifficulty={handleMusicDifficulty}
         />
-        <Gameboard hasGameStarted={hasGameStarted} handleGameStart={handleGameStart}/>
+        <Gameboard
+          hasGameStarted={hasGameStarted}
+          handleGameStart={handleGameStart}
+        />
         <div className="row-start-3 justify-self-start ml-1 flex">
           <SettingBtn
             clickHandler={handleSoundEffectClick}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import cardsShuffled from "../../assets/audios/cards-shuffled.wav";
 import Card from "./Card";
-import methodsExpension from "../utils";
+import methodsExpension from "../utils/utils";
 import CardsContainer from "./CardsContainer";
 import Scoreboard from "./Scoreboard";
 import { produce } from "immer";
@@ -26,6 +27,11 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
     if (isCardClicked) setShuffledCharacterIds([...characterIds].shuffle());
   }, [characterIds, isCardClicked]);
 
+  const playAudio = (audioFiles) => {
+    const audio = new Audio(audioFiles);
+    audio.play();
+  }
+
   const handleCardClick = (isBeingAnimated, characterId) => {
     if (isBeingAnimated && !isCardClicked) {
       if (clickedCharacterIds.includes(characterId)) {
@@ -39,6 +45,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart }) => {
         return;
       }
 
+      playAudio(cardsShuffled);
       setIsCardClicked(true);
 
       setClickedCharacterIds(
