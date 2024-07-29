@@ -1,50 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import Tilt from "react-parallax-tilt";
 
-const Card = ({ handleCardClick, isCardClicked, characterId, doFetch, handleDoFetch }) => {
-  const [characterImgs, setCharacterImgs] = useState({
-    name: null,
-    jpg: null,
-    webp: null,
-  });
-
-  const cache = useRef({});
-
-  useEffect(() => {
-    const fetchCharacter = async () => {
-      if (cache.current[characterId]) {
-        setCharacterImgs(cache.current[characterId])
-      } else {
-        try {
-          const response = await fetch(
-            // use jikan api to query characters
-            `https://api.jikan.moe/v4/characters/${characterId}/full`
-          );
-          let data = await response.json();
-          data = data.data;
-
-          const characterData = {
-            name: data.name,
-            jpg: data.images.jpg.image_url,
-            webp: data.images.webp.image_url,
-          }
-
-          cache.current[characterId] = characterData;
-          setCharacterImgs(characterData);
-        } catch (error) {
-          console.error("Could not fetch character: ", error);
-        }
-      }
-    };
-
-    if (doFetch) {
-      fetchCharacter();
-      handleDoFetch(false);
-    }
-  }, [characterId, doFetch, handleDoFetch]);
-
+const Card = ({ handleCardClick, isCardClicked, characterImg, handleDoShuffleCards }) => {
   return (
-    <div className="row-start-2" onClick={() => handleCardClick(true, characterId)}>
+    <div className="row-start-2" onClick={() => handleCardClick(true, characterImg.id)}>
       <Tilt
         glareEnable={!isCardClicked}
         glareMaxOpacity={0.5}
@@ -56,21 +15,21 @@ const Card = ({ handleCardClick, isCardClicked, characterId, doFetch, handleDoFe
           <div
             className={`w-48 h-72 rounded-md shadow-sm bg-red-100 overflow-hidden border-2 border-black
           relative preserve-3d ${isCardClicked && "return-frontface-card"} hide-backface select-none`}
-          onAnimationIteration={() => handleDoFetch(true)}
+          onAnimationIteration={() => handleDoShuffleCards(true)}
           onAnimationEnd={() => handleCardClick(false)}
           >
             <picture>
-              <source srcSet={characterImgs.webp} type="image/webp" />
+              <source srcSet={characterImg.webp} type="image/webp" />
               <img
                 className="h-full w-full object-cover"
-                src={characterImgs.jpg}
-                alt={`Picture of ${characterImgs.name}`}
+                src={characterImg.jpg}
+                alt={`Picture of ${characterImg.name}`}
               />
             </picture>
             <div className="absolute bottom-0 w-full h-[40%]
             bg-gradient-to-t from-zinc-950 to-zinc-950/0
             flex justify-center items-end">
-              <h1 className="text-white text-nowrap mb-4">{characterImgs.name?.split(' ')[0] || ''}</h1>
+              <h1 className="text-white text-nowrap mb-4">{characterImg.name?.split(' ')[0] || ''}</h1>
             </div>
           </div>
           <div
