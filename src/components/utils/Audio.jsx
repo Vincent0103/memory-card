@@ -1,8 +1,15 @@
 import { getAudioExtension } from "./utils";
 
-const AudioJSX = ({ audioRef, audioFileUrls, isOn, hasGameStarted, isHandlingMusic, hasLoop=false }) => {
+const AudioJSX = ({
+  audioRef,
+  audioFileUrls,
+  isOn,
+  playCondition,
+  isHandlingMusic,
+  hasLoop = false,
+}) => {
   if (isHandlingMusic) {
-    if (hasGameStarted) audioRef.current.play();
+    if (playCondition) audioRef.current.play();
     else if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -18,7 +25,7 @@ const AudioJSX = ({ audioRef, audioFileUrls, isOn, hasGameStarted, isHandlingMus
         })}
       Your browser does not support the audio element
     </audio>
-  )
+  );
 };
 
 export default AudioJSX;

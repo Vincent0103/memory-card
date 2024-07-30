@@ -17,7 +17,6 @@ function App() {
   const soundEffectAudioRef = useRef(null);
   const [isSoundEffectOn, setIsSoundEffectOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(false);
-  const [musicSources, setMusicSources] = useState(null);
 
   const [gameState, setGameState] = useState({
     started: false,
@@ -27,7 +26,6 @@ function App() {
 
   const handleMusicClick = useCallback(() => {
     setIsMusicOn(!isMusicOn);
-    console.log(isSoundEffectOn);
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
   }, [isSoundEffectOn, isMusicOn]);
 
@@ -36,7 +34,6 @@ function App() {
   }, []);
 
   const handleGameState = (dataObject) => {
-    console.log(gameState.retried);
     setGameState(
       produce((draft) => {
         Object.entries(dataObject).forEach(([state, value]) => {
@@ -44,13 +41,6 @@ function App() {
         });
       })
     );
-
-  };
-
-  const handleMusicDifficulty = (difficulty) => {
-    if (difficulty === "easy") {
-      setMusicSources([easyMusicMP3, easyMusicWAV]);
-    }
   };
 
   return (
@@ -62,9 +52,9 @@ function App() {
       />
       <AudioJSX
         audioRef={musicRef}
-        audioFileUrls={musicSources}
+        audioFileUrls={[easyMusicMP3, easyMusicWAV]}
         isOn={isMusicOn}
-        hasGameStarted={gameState.started}
+        playCondition={gameState.started && !gameState.ended}
         hasLoop={true}
         isHandlingMusic={true}
       />
@@ -76,7 +66,6 @@ function App() {
           handleGameState={handleGameState}
           hasGameStarted={gameState.started}
           setIsMusicOn={setIsMusicOn}
-          handleMusicDifficulty={handleMusicDifficulty}
         />
         <Gameboard
           hasGameStarted={gameState.started}
@@ -110,6 +99,9 @@ function App() {
       <LoseScreen
         hasGameEnded={gameState.ended}
         handleGameState={handleGameState}
+        isMusicOn={isMusicOn}
+        soundEffectAudioRef={soundEffectAudioRef}
+        isSoundEffectOn={isSoundEffectOn}
       />
     </div>
   );

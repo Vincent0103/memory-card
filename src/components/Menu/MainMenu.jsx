@@ -8,18 +8,11 @@ const MainMenu = ({
   isSoundEffectOn,
   handleGameState,
   hasGameStarted,
-  handleMusicDifficulty,
 }) => {
-  const handlePlayBtnClick = useCallback(() => {
+  const handlePlayBtnClick = () => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
     handleGameState({ started: true });
-    handleMusicDifficulty("easy");
-  }, [
-    isSoundEffectOn,
-    handleGameState,
-    soundEffectAudioRef,
-    handleMusicDifficulty,
-  ]);
+  };
 
   const onGameStartTransitioner = hasGameStarted
     ? "translate-z-front opacity-0 pointer-events-none -z-10"
@@ -31,7 +24,7 @@ const MainMenu = ({
     >
       <div className="relative w-min row-start-2 flex flex-col items-center gap-6">
         <MenuTitle />
-        <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"}/>
+        <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"} />
         <div
           className="absolute max-w-[400px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
         top-[300px]"
