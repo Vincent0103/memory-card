@@ -12,7 +12,7 @@ const Card = ({
     onClick={() => handleCardClick(true, characterImg.id)}
   >
     <Tilt
-      glareEnable={!isCardClicked}
+      glareEnable={true}
       glareMaxOpacity={0.5}
       glareColor="#ffffff"
       glarePosition="bottom"

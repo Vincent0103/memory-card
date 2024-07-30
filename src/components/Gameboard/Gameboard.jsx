@@ -192,13 +192,14 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     handleClickedCharacterIds();
     handleScores(true);
     handleGameStart(true);
+    handleDifficulty(true);
   };
 
-  const handleDifficulty = () => {
+  const handleDifficulty = (resetDifficulty) => {
     const currentRounds = clickedCharacterIds.length + 1;
     let difficulty = null;
     let visibleCards = 0;
-    if (currentRounds >= 1 && currentRounds < 5) {
+    if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
       difficulty = "easy";
       visibleCards = 4;
     } else if (currentRounds >= 5 && currentRounds < 13) {
