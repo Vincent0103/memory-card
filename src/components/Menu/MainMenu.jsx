@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import MenuTitle from "./MenuTitle";
 import GameStateBtn from "../GameStateBtn";
 

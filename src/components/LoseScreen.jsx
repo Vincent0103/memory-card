@@ -1,14 +1,21 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import GameStateBtn from "./GameStateBtn";
-import AudioJSX from "./utils/Audio";
 
-const LoseScreen = ({
-  hasGameEnded,
-  handleGameState,
-}) => {
+const LoseScreen = ({ hasGameEnded, handleGameState }) => {
+  const [showRetryBtn, setShowRetryBtn] = useState(false);
+
   const handleRetryBtnClick = () => {
     handleGameState({ ended: false, retried: true });
+    setShowRetryBtn(false);
   };
+
+  useEffect(() => {
+    if (hasGameEnded) {
+      setTimeout(() => {
+        setShowRetryBtn(true);
+      }, 2000);
+    }
+  }, [hasGameEnded]);
 
   return (
     <div
@@ -20,10 +27,12 @@ const LoseScreen = ({
                 : "opacity-0 pointer-events-none"
             }`}
     >
-      <h1 className="text-[10rem] leading-none font-cristone text-red-800 tracking-wide">
+      <h1 className={`text-[10rem] leading-none font-cristone text-red-800 tracking-wide transition-transform
+        ${!showRetryBtn && "translate-y-16" }`}>
         YOU LOSE
       </h1>
-      <GameStateBtn clickHandler={handleRetryBtnClick} text={"RETRY"} />
+      <GameStateBtn clickHandler={handleRetryBtnClick} text={"RETRY"}
+      customStyling={`transition-slide ${showRetryBtn ? "translate-z-idle opacity-1" : "translate-z-back opacity-0"}`} />
     </div>
   );
 };

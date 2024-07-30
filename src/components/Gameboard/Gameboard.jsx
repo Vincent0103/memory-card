@@ -96,10 +96,17 @@ const Gameboard = ({
           unclickedIds
         );
       } else {
-        clickedShuffledIds.splice(0, totalIdsLength - difficultyData.visibleCards);
+        clickedShuffledIds.splice(
+          0,
+          totalIdsLength - difficultyData.visibleCards
+        );
       }
 
-      return [...unclickedShuffledIds, ...compensatedShuffledIds, ...clickedShuffledIds].shuffle();
+      return [
+        ...unclickedShuffledIds,
+        ...compensatedShuffledIds,
+        ...clickedShuffledIds,
+      ].shuffle();
     };
 
     if (doShuffleCards) {
