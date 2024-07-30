@@ -4,11 +4,16 @@
 
 @layer base {
   @font-face {
-    font-family: 'Divergentes';
+    font-family: "Divergentes";
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(./assets/fonts/Divergentes.ttf) format('ttf');
+    src:
+      url(./assets/fonts/divergentes/Divergentes.woff2) format("woff2"),
+      url(./assets/fonts/divergentes/Divergentes.woff) format("woff"),
+      url(./assets/fonts/divergentes/Divergentes.ttf) format("truetype"),
+      url(./assets/fonts/divergentes/Divergentes.eot)
+        format("embedded-opentype");
   }
 }
 
@@ -89,11 +94,13 @@
   }
 
   .return-frontface-card {
-    animation: return-frontface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
+    animation: return-frontface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2
+      alternate;
   }
 
   .return-backface-card {
-    animation: return-backface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2 alternate;
+    animation: return-backface-card 800ms cubic-bezier(0.4, 0, 0.2, 1) 2
+      alternate;
   }
 
   .preserve-3d {
