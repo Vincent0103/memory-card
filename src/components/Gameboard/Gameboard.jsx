@@ -22,7 +22,8 @@ const Gameboard = ({
   const characterIds = useMemo(
     () => [
       170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
-      174745, 170765, 222935, 184168, 174751, 177862,
+      174745, 170765, 222935, 184168, 174751, 177862, 219634, 174747, 184111,
+      174743, 184169, 199840, 199843,
     ],
     []
   );
@@ -56,9 +57,17 @@ const Gameboard = ({
 
   useEffect(() => {
     if (doShuffleCards) {
-      setShuffledCharacterIds(
-        [...characterIds].shuffle().splice(0, difficultyData.visibleCards)
-      );
+      const currentCharacterIds = [...characterIds];
+      const newShuffledCharacterIds = currentCharacterIds.shuffle().splice(0, difficultyData.visibleCards);
+
+      const notClickedCharacterId = currentCharacterIds.find((id) => !clickedCharacterIds.includes(id));
+
+      if (!newShuffledCharacterIds.includes(notClickedCharacterId)) {
+        const randomIndex = Math.floor(Math.random() * difficultyData.visibleCards);
+        newShuffledCharacterIds[randomIndex] = notClickedCharacterId;
+      }
+
+      setShuffledCharacterIds(newShuffledCharacterIds);
       setDoShuffleCards(false);
     }
   }, [characterIds, doShuffleCards, difficultyData.visibleCards]);
