@@ -170,6 +170,7 @@ const Gameboard = ({
         retried: false,
       });
       handleClickedCharacterIds();
+      handleDoShuffleCards(true);
       handleScores(true);
       handleDifficulty(true);
     }
