@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from "react";
+import { produce } from "immer";
 import MainMenu from "./components/Menu/MainMenu";
 import BgVideo from "./components/BgVideo";
 import SettingBtn from "./components/SettingBtn";
@@ -9,21 +10,24 @@ import btnClickAudioOGG from "./assets/audios/btn-click.ogg";
 import btnClickAudioWAV from "./assets/audios/btn-click.wav";
 import easyMusicMP3 from "./assets/audios/music/buddy.mp3";
 import easyMusicWAV from "./assets/audios/music/buddy.wav";
-
+import LoseScreen from "./components/LoseScreen";
 
 function App() {
-  const prevMusicRef = useRef(null);
   const musicRef = useRef(null);
   const soundEffectAudioRef = useRef(null);
   const [isSoundEffectOn, setIsSoundEffectOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [musicSources, setMusicSources] = useState(null);
 
-  const [hasGameStarted, setHasGameStarted] = useState(false);
+  const [gameState, setGameState] = useState({
+    started: false,
+    ended: false,
+    retried: false,
+  });
 
   const handleMusicClick = useCallback(() => {
     setIsMusicOn(!isMusicOn);
-    console.log(isSoundEffectOn)
+    console.log(isSoundEffectOn);
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
   }, [isSoundEffectOn, isMusicOn]);
 
@@ -31,15 +35,23 @@ function App() {
     setIsSoundEffectOn((prev) => !prev);
   }, []);
 
-  const handleGameStart = (hasGameEnded) => {
-    setHasGameStarted(!hasGameEnded);
+  const handleGameState = (dataObject) => {
+    console.log(gameState.retried);
+    setGameState(
+      produce((draft) => {
+        Object.entries(dataObject).forEach(([state, value]) => {
+          draft[state] = value;
+        });
+      })
+    );
+
   };
 
   const handleMusicDifficulty = (difficulty) => {
-    if (difficulty === 'easy') {
+    if (difficulty === "easy") {
       setMusicSources([easyMusicMP3, easyMusicWAV]);
     }
-  }
+  };
 
   return (
     <div className="absolute top-0 left-0 w-full h-full">
@@ -52,23 +64,24 @@ function App() {
         audioRef={musicRef}
         audioFileUrls={musicSources}
         isOn={isMusicOn}
-        hasGameStarted={hasGameStarted}
+        hasGameStarted={gameState.started}
         hasLoop={true}
         isHandlingMusic={true}
       />
-      <BgVideo isMusicOn={isMusicOn} hasGameStarted={hasGameStarted} />
+      <BgVideo isMusicOn={isMusicOn} hasGameStarted={gameState.started} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}
-          handleGameStart={handleGameStart}
-          hasGameStarted={hasGameStarted}
+          handleGameState={handleGameState}
+          hasGameStarted={gameState.started}
           setIsMusicOn={setIsMusicOn}
           handleMusicDifficulty={handleMusicDifficulty}
         />
         <Gameboard
-          hasGameStarted={hasGameStarted}
-          handleGameStart={handleGameStart}
+          hasGameStarted={gameState.started}
+          hasGameRetried={gameState.retried}
+          handleGameState={handleGameState}
           isSoundEffectOn={isSoundEffectOn}
         />
         <div className="row-start-3 justify-self-start ml-1 flex">
@@ -94,6 +107,10 @@ function App() {
           />
         </div>
       </div>
+      <LoseScreen
+        hasGameEnded={gameState.ended}
+        handleGameState={handleGameState}
+      />
     </div>
   );
 }

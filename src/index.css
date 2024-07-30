@@ -15,6 +15,18 @@
       url(./assets/fonts/divergentes/Divergentes.eot)
         format("embedded-opentype");
   }
+
+  @font-face {
+    font-family: "Cristone";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src:
+      url(./assets/fonts/cristone/Cristone.woff2) format("woff2"),
+      url(./assets/fonts/cristone/Cristone.woff) format("woff"),
+      url(./assets/fonts/cristone/Cristone.ttf) format("truetype"),
+      url(./assets/fonts/cristone/Cristone.eot) format("embedded-opentype");
+  }
 }
 
 @layer utilities {

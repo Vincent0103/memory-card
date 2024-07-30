@@ -1,34 +1,44 @@
 import { useCallback } from "react";
 
 import MenuTitle from "./MenuTitle";
-import PlayBtn from "./PlayBtn";
+import GameStateBtn from "../GameStateBtn";
 
 const MainMenu = ({
   soundEffectAudioRef,
   isSoundEffectOn,
-  handleGameStart,
+  handleGameState,
   hasGameStarted,
   handleMusicDifficulty,
 }) => {
   const handlePlayBtnClick = useCallback(() => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    handleGameStart(false);
-    handleMusicDifficulty('easy');
-  }, [isSoundEffectOn, handleGameStart, soundEffectAudioRef, handleMusicDifficulty]);
+    handleGameState({ started: true });
+    handleMusicDifficulty("easy");
+  }, [
+    isSoundEffectOn,
+    handleGameState,
+    soundEffectAudioRef,
+    handleMusicDifficulty,
+  ]);
 
   const onGameStartTransitioner = hasGameStarted
     ? "translate-z-front opacity-0 pointer-events-none -z-10"
     : "absolute translate-z-idle opacity-1";
 
   return (
-    <div className={`${onGameStartTransitioner} justify-items-center items-center row-start-2 transition-slide`}>
+    <div
+      className={`${onGameStartTransitioner} justify-items-center items-center row-start-2 transition-slide`}
+    >
       <div className="relative w-min row-start-2 flex flex-col items-center gap-6">
         <MenuTitle />
-        <PlayBtn clickHandler={handlePlayBtnClick} />
-        <div className="absolute max-w-[400px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
-        top-[300px]">
+        <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"}/>
+        <div
+          className="absolute max-w-[400px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
+        top-[300px]"
+        >
           <p className="text-center drop-shadow-lg my-4 mx-6">
-            For the best experience, please enable game music using the melody button below !
+            For the best experience, please enable game music using the melody
+            button below !
           </p>
         </div>
       </div>

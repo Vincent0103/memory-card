@@ -9,3 +9,4 @@ Currently, two official plugins are available:
 
 <!-- ADD WIN SCREEN -->
 <!-- Make sure there is atleast one card not choosen for each difficulty -->
+<!-- Change text-select color -->

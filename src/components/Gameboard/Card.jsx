@@ -20,7 +20,7 @@ const Card = ({
     >
       <div className="relative">
         <div
-          className={`max-w-48 max-h-72 rounded-md shadow-sm bg-red-100 overflow-hidden border-2 border-black
+          className={`w-48 h-72 rounded-md shadow-sm bg-red-100 overflow-hidden border-2 border-black
           relative preserve-3d ${isCardClicked && "return-frontface-card"} hide-backface select-none`}
           onAnimationIteration={() => handleDoShuffleCards(true)}
           onAnimationEnd={() => handleCardClick(false)}
@@ -44,7 +44,7 @@ const Card = ({
           </div>
         </div>
         <div
-          className={`max-w-48 max-h-72 rounded-md shadow-sm bg-gradient-to-br from-zinc-700 to-zinc-900
+          className={`w-48 h-72 rounded-md shadow-sm bg-gradient-to-br from-zinc-700 to-zinc-900
           overflow-hidden border-2 border-black absolute top-0 left-0 preserve-3d
           ${isCardClicked && "return-backface-card"} hide-backface rotate-y-full
           pointer-events-none select-none`}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { produce } from "immer";
 import Card from "./Card";
 import methodsExpension from "../utils/utils";
@@ -10,11 +10,15 @@ import cardsShuffledWAV from "../../assets/audios/cards-shuffled.wav";
 import DifficultyDisplayer from "./DifficultyDisplayer";
 
 methodsExpension();
-const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
+const Gameboard = ({
+  hasGameStarted,
+  hasGameRetried,
+  handleGameState,
+  isSoundEffectOn,
+}) => {
   const cardsShuffleAudioRef = useRef(null);
 
-  // ids: 170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
-  // 174745, 170765, 222935, 184168, 174751, 177862,
+  // The ids are retrieved from theAnimeList website api
   const characterIds = useMemo(
     () => [
       170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
@@ -140,6 +144,59 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     });
   }, [characterImgs, characterIds]);
 
+  const handleDifficulty = useCallback((resetDifficulty) => {
+    const currentRounds = clickedCharacterIds.length + 1;
+    let difficulty = null;
+    let visibleCards = 0;
+    if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
+      difficulty = "easy";
+      visibleCards = 4;
+    } else if (currentRounds >= 5 && currentRounds < 13) {
+      difficulty = "medium";
+      visibleCards = 7;
+    } else if (currentRounds >= 13 && currentRounds < 22) {
+      difficulty = "hard";
+      visibleCards = 12;
+    }
+
+    setDifficultyData({ difficulty, visibleCards });
+  }, [clickedCharacterIds.length]);
+
+  useEffect(() => {
+    if (hasGameRetried) {
+      handleGameState({
+        started: false,
+        retried: false,
+      });
+      handleClickedCharacterIds();
+      handleScores(true);
+      handleDifficulty(true);
+    }
+  }, [hasGameRetried, handleDifficulty, handleGameState]);
+
+  const handleCardClick = (animate, characterId) => {
+    if (!animate) setIsCardClicked(false);
+    if (isCardClicked) return;
+
+    if (clickedCharacterIds.includes(characterId)) handleIncorrectGuess();
+    else handleCorrectGuess(characterId);
+
+    setIsCardClicked(true);
+  };
+
+  const handleCorrectGuess = (characterId) => {
+    cardsShuffleAudioRef.current.play();
+    handleClickedCharacterIds(characterId);
+    handleScores(false);
+    handleDifficulty();
+  };
+
+  const handleIncorrectGuess = () => {
+    handleGameState({
+      ended: true,
+    });
+  };
+
   const handleScores = (hasLost) => {
     if (hasLost) {
       setScores(
@@ -169,49 +226,6 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
     } else {
       setClickedCharacterIds([]);
     }
-  };
-
-  const handleCardClick = (animate, characterId) => {
-    if (!animate) setIsCardClicked(false);
-    if (isCardClicked) return;
-
-    if (clickedCharacterIds.includes(characterId)) handleIncorrectGuess();
-    else handleCorrectGuess(characterId);
-
-    setIsCardClicked(true);
-  };
-
-  const handleCorrectGuess = (characterId) => {
-    cardsShuffleAudioRef.current.play();
-    handleClickedCharacterIds(characterId);
-    handleScores(false);
-    handleDifficulty();
-  };
-
-  const handleIncorrectGuess = () => {
-    handleClickedCharacterIds();
-    handleScores(true);
-    handleGameStart(true);
-    handleDifficulty(true);
-  };
-
-  const handleDifficulty = (resetDifficulty) => {
-    const currentRounds = clickedCharacterIds.length + 1;
-    let difficulty = null;
-    let visibleCards = 0;
-    if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
-      difficulty = "easy";
-      visibleCards = 4;
-    } else if (currentRounds >= 5 && currentRounds < 13) {
-      difficulty = "medium";
-      visibleCards = 7;
-    } else if (currentRounds >= 13 && currentRounds < 22) {
-      difficulty = "hard";
-      visibleCards = 12;
-    }
-
-    console.log(difficultyData);
-    setDifficultyData({ difficulty, visibleCards });
   };
 
   const onGameStartTransitioner = !hasGameStarted
@@ -249,7 +263,7 @@ const Gameboard = ({ hasGameStarted, handleGameStart, isSoundEffectOn }) => {
             );
           })}
         </CardsContainer>
-        <DifficultyDisplayer difficulty={difficultyData.difficulty}/>
+        <DifficultyDisplayer difficulty={difficultyData.difficulty} />
       </div>
     </>
   );
