@@ -166,6 +166,7 @@ const Gameboard = ({
     if (hasGameRetried) {
       handleGameState({
         started: false,
+        ended: false,
         retried: false,
       });
       handleClickedCharacterIds();

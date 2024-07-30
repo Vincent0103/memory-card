@@ -55,6 +55,7 @@ function App() {
         audioFileUrls={[easyMusicMP3, easyMusicWAV]}
         isOn={isMusicOn}
         playCondition={gameState.started && !gameState.ended}
+        pitchCondition={gameState.ended}
         hasLoop={true}
         isHandlingMusic={true}
       />
@@ -99,9 +100,6 @@ function App() {
       <LoseScreen
         hasGameEnded={gameState.ended}
         handleGameState={handleGameState}
-        isMusicOn={isMusicOn}
-        soundEffectAudioRef={soundEffectAudioRef}
-        isSoundEffectOn={isSoundEffectOn}
       />
     </div>
   );
