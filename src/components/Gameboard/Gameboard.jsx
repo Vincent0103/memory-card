@@ -56,21 +56,64 @@ const Gameboard = ({
   });
 
   useEffect(() => {
-    if (doShuffleCards) {
-      const currentCharacterIds = [...characterIds];
-      const newShuffledCharacterIds = currentCharacterIds.shuffle().splice(0, difficultyData.visibleCards);
+    const clickedIds = [...clickedCharacterIds];
+    const unclickedIds = characterIds.filter(
+      (id) => !clickedCharacterIds.includes(id)
+    );
 
-      const notClickedCharacterId = currentCharacterIds.find((id) => !clickedCharacterIds.includes(id));
+    const popCharacters = (n, array) => {
+      const result = [];
+      for (let i = 0; i < n; i += 1) {
+        const index = Math.floor(Math.random() * array.length);
+        result.push(array.splice(index, 1)[0]);
+      }
+      return result;
+    };
 
-      if (!newShuffledCharacterIds.includes(notClickedCharacterId)) {
-        const randomIndex = Math.floor(Math.random() * difficultyData.visibleCards);
-        newShuffledCharacterIds[randomIndex] = notClickedCharacterId;
+    const getUnclickedCharactersIds = () => {
+      // for easy and medium
+      let desiredNumber = 2;
+      if (difficultyData.difficulty === "hard") desiredNumber = 1;
+
+      return popCharacters(desiredNumber, unclickedIds);
+    };
+
+    const getNewShuffledCharacterIds = () => {
+      const unclickedShuffledIds = getUnclickedCharactersIds();
+      const clickedShuffledIds = popCharacters(
+        clickedCharacterIds.length,
+        clickedIds
+      );
+
+      let compensatedShuffledIds = [];
+
+      const totalIdsLength =
+        clickedShuffledIds.length + unclickedShuffledIds.length;
+
+      if (totalIdsLength <= difficultyData.visibleCards) {
+        compensatedShuffledIds = popCharacters(
+          difficultyData.visibleCards - totalIdsLength,
+          unclickedIds
+        );
+      } else {
+        clickedShuffledIds.splice(0, totalIdsLength - difficultyData.visibleCards);
       }
 
+      return [...unclickedShuffledIds, ...compensatedShuffledIds, ...clickedShuffledIds].shuffle();
+    };
+
+    if (doShuffleCards) {
+      const newShuffledCharacterIds = getNewShuffledCharacterIds();
       setShuffledCharacterIds(newShuffledCharacterIds);
       setDoShuffleCards(false);
     }
-  }, [characterIds, doShuffleCards, difficultyData.visibleCards]);
+  }, [
+    characterIds,
+    clickedCharacterIds,
+    difficultyData.difficulty,
+    difficultyData.visibleCards,
+    doShuffleCards,
+  ]);
 
   const handleDoShuffleCards = (canShuffleCards) => {
     setDoShuffleCards(canShuffleCards);
@@ -153,23 +196,26 @@ const Gameboard = ({
     });
   }, [characterImgs, characterIds]);
 
-  const handleDifficulty = useCallback((resetDifficulty) => {
-    const currentRounds = clickedCharacterIds.length + 1;
-    let difficulty = null;
-    let visibleCards = 0;
-    if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
-      difficulty = "easy";
-      visibleCards = 4;
-    } else if (currentRounds >= 5 && currentRounds < 13) {
-      difficulty = "medium";
-      visibleCards = 7;
-    } else if (currentRounds >= 13 && currentRounds < 22) {
-      difficulty = "hard";
-      visibleCards = 12;
-    }
+  const handleDifficulty = useCallback(
+    (resetDifficulty) => {
+      const currentRounds = clickedCharacterIds.length + 1;
+      let difficulty = null;
+      let visibleCards = 0;
+      if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
+        difficulty = "easy";
+        visibleCards = 4;
+      } else if (currentRounds >= 5 && currentRounds < 13) {
+        difficulty = "medium";
+        visibleCards = 7;
+      } else if (currentRounds >= 13 && currentRounds < 22) {
+        difficulty = "hard";
+        visibleCards = 12;
+      }
 
-    setDifficultyData({ difficulty, visibleCards });
-  }, [clickedCharacterIds.length]);
+      setDifficultyData({ difficulty, visibleCards });
+    },
+    [clickedCharacterIds.length]
+  );
 
   useEffect(() => {
     if (hasGameRetried) {
