@@ -14,18 +14,11 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
   const cardsShuffleAudioRef = useRef(null);
 
   // The ids are retrieved from theAnimeList website api
-  // const characterIds = useMemo(
-  //   () => [
-  //     170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
-  //     174745, 170765, 222935, 184168, 174751, 177862, 219634, 174747, 184111,
-  //     174743, 184169, 199840, 199843,
-  //   ],
-  //   []
-  // );
-
   const characterIds = useMemo(
     () => [
-      170732, 170733, 170734
+      170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
+      174745, 170765, 222935, 184168, 174751, 177862, 219634, 174747, 184111,
+      174743, 184169, 199840, 199843,
     ],
     []
   );
