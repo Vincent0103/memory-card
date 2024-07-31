@@ -57,26 +57,26 @@ const Card = ({
           >
             <h1
               className="font-divergentes text-8xl max-2xl:text-6xl absolute
-              top-[90px] left-[60px] max-2xl:top-[60px] max-2xl:left-[45px] z-[4] text-white/90"
+              top-[90px] left-[60px] max-2xl:top-[55px] max-2xl:left-[40px] z-[4] text-white/90"
             >
               M
             </h1>
             <h1
               className="font-divergentes text-8xl max-2xl:text-6xl absolute
-              top-[95px] left-[65px] max-2xl:top-[63px] max-2xl:left-[48px] z-[3]
+              top-[95px] left-[65px] max-2xl:top-[58px] max-2xl:left-[43px] z-[3]
                 text-black/50"
             >
               M
             </h1>
             <h1
               className="font-divergentes text-8xl max-2xl:text-6xl absolute
-              top-[120px] left-[95px] max-2xl:top-[80px] max-2xl:left-[67px] z-[2] text-white/90"
+              top-[120px] left-[95px] max-2xl:top-[75px] max-2xl:left-[62px] z-[2] text-white/90"
             >
               C
             </h1>
             <h1
               className="font-divergentes text-8xl max-2xl:text-6xl absolute
-              top-[125px] left-[100px] max-2xl:top-[83px] max-2xl:left-[70px] z-[1] text-black/50"
+              top-[125px] left-[100px] max-2xl:top-[78px] max-2xl:left-[65px] z-[1] text-black/50"
             >
               C
             </h1>
