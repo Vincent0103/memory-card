@@ -224,7 +224,7 @@ const Gameboard = ({
   useEffect(() => {
     if (hasGameRetried) {
       handleGameState({
-        started: false,
+        started: true,
         ended: false,
         retried: false,
       });
