@@ -14,11 +14,18 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
   const cardsShuffleAudioRef = useRef(null);
 
   // The ids are retrieved from theAnimeList website api
+  // const characterIds = useMemo(
+  //   () => [
+  //     170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
+  //     174745, 170765, 222935, 184168, 174751, 177862, 219634, 174747, 184111,
+  //     174743, 184169, 199840, 199843,
+  //   ],
+  //   []
+  // );
+
   const characterIds = useMemo(
     () => [
-      170732, 170733, 170734, 170735, 174749, 174750, 174748, 174744, 174746,
-      174745, 170765, 222935, 184168, 174751, 177862, 219634, 174747, 184111,
-      174743, 184169, 199840, 199843,
+      170732, 170733, 170734
     ],
     []
   );
@@ -58,7 +65,8 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
 
     const popCharacters = (n, array) => {
       const result = [];
-      for (let i = 0; i < n; i += 1) {
+      const loopCondition = (n > array.length) ? array : n;
+      for (let i = 0; i < loopCondition; i += 1) {
         const index = Math.floor(Math.random() * array.length);
         result.push(array.splice(index, 1)[0]);
       }
@@ -93,6 +101,8 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
           totalIdsLength - difficultyData.visibleCards
         );
       }
+
+      console.log(unclickedShuffledIds, compensatedShuffledIds, clickedShuffledIds);
 
       return [
         ...unclickedShuffledIds,
@@ -238,23 +248,35 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
     if (!animate) setIsCardClicked(false);
     if (isCardClicked) return;
 
-    if (clickedCharacterIds.includes(characterId)) handleIncorrectGuess();
+    if (clickedCharacterIds.includes(characterId)) handleWinLose(true);
     else handleCorrectGuess(characterId);
 
     setIsCardClicked(true);
   };
 
   const handleCorrectGuess = (characterId) => {
-    cardsShuffleAudioRef.current.play();
-    handleClickedCharacterIds(characterId);
-    handleScores(false);
-    handleDifficulty();
+    // +1 because the currently clicked character id isn't counted
+    //  in the clickedCharacterIds array during the current render.
+    const numberOfClickedCharacterIds = clickedCharacterIds.length + 1;
+
+    if (numberOfClickedCharacterIds === characterIds.length) {
+      handleWinLose(false);
+      handleScores();
+    } else {
+      cardsShuffleAudioRef.current.play();
+      handleClickedCharacterIds(characterId);
+      handleScores(false);
+      handleDifficulty();
+    }
   };
 
-  const handleIncorrectGuess = () => {
-    handleGameState({
+  const handleWinLose = (hasLost) => {
+    const dataObject = {
       ended: true,
-    });
+    };
+    if (!hasLost) dataObject.won = true;
+
+    handleGameState(dataObject);
   };
 
   const handleScores = (hasLost) => {

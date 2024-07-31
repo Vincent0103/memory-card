@@ -1,36 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameStateBtn from "./GameStateBtn";
+import winMusicMP3 from "../assets/audios/music/dreams-come-true.mp3";
+import winMusicWAV from "../assets/audios/music/dreams-come-true.wav";
+import AudioJSX from "./utils/Audio";
 
 const WinLoseScreen = ({
-  hasGameEnded,
-  hasWon,
+  gameState,
   handleGameState,
   soundEffectAudioRef,
   isSoundEffectOn,
+  isMusicOn,
 }) => {
+  const winMusicRef = useRef(null);
   const [showRetryBtn, setShowRetryBtn] = useState(false);
 
   const handleRetryBtnClick = () => {
-    if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    if (hasWon) handleGameState({ home: true, ended: false, retried: true });
-    handleGameState({ ended: false, retried: true });
-    setShowRetryBtn(false);
+    if (showRetryBtn) {
+      const dataObject = { ended: false, retried: true };
+      if (isSoundEffectOn) soundEffectAudioRef.current.play();
+      if (gameState.won) {
+        dataObject.home = true;
+      }
+      handleGameState(dataObject);
+      setShowRetryBtn(false);
+    }
   };
 
   useEffect(() => {
-    if (hasGameEnded) {
+    if (gameState.ended) {
       setTimeout(() => {
         setShowRetryBtn(true);
-      }, 2000);
+      }, (gameState.won) ? 5000 : 2000);
     }
-  }, [hasGameEnded]);
+  }, [gameState.ended, gameState.won]);
 
-  const onEndTransitioner = hasGameEnded
+  const onEndTransitioner = gameState.ended
     ? "opacity-1 pointer-events-auto"
     : "opacity-0 pointer-events-none";
 
   let text;
-  if (!hasWon) {
+  if (!gameState.won) {
     text = (
       <h1
         className={`text-[10rem] leading-none font-cristone text-red-800 tracking-wide transition-transform
@@ -41,7 +50,9 @@ const WinLoseScreen = ({
     );
   } else {
     text = (
-      <div className={`relative transition-transform ${!showRetryBtn && "translate-y-16"}`}>
+      <div
+        className={`relative transition-transform ${!showRetryBtn && "translate-y-16"}`}
+      >
         <h1
           className={`text-[10rem] leading-none text-orange-300/90 tracking-wide
             font-extrabold`}
@@ -59,18 +70,27 @@ const WinLoseScreen = ({
   }
 
   return (
-    <div
-      className={`fixed top-0 left-0 w-full h-full ${!hasWon && "bg-black/80"} backdrop-blur-3xl
-            flex flex-col justify-center items-center transition-opacity
-            gap-8 ${onEndTransitioner}`}
-    >
-      {text}
-      <GameStateBtn
-        clickHandler={handleRetryBtnClick}
-        text={"RETRY"}
-        customStyling={`transition-slide ${showRetryBtn ? "translate-z-idle opacity-1" : "translate-z-back opacity-0 pointer-events-none"}`}
+    <>
+      <div
+        className={`fixed top-0 left-0 w-full h-full ${!gameState.won ? "bg-black/80 gap-8" : "gap-14"} backdrop-blur-3xl
+              flex flex-col justify-center items-center transition-opacity
+              gap-8 ${onEndTransitioner}`}
+      >
+        {text}
+        <GameStateBtn
+          clickHandler={handleRetryBtnClick}
+          text={gameState.won ? "HOME" : "RETRY"}
+          customStyling={`transition-slide ${showRetryBtn ? "translate-z-idle opacity-1" : "translate-z-back opacity-0 pointer-events-none"}`}
+        />
+      </div>
+      <AudioJSX
+        audioRef={winMusicRef}
+        audioFileUrls={[winMusicMP3, winMusicWAV]}
+        isOn={isMusicOn}
+        playCondition={gameState.won && !gameState.home}
+        isHandlingMusic={true}
       />
-    </div>
+    </>
   );
 };
 
