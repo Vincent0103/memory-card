@@ -27,6 +27,10 @@
       url(./assets/fonts/cristone/Cristone.ttf) format("truetype"),
       url(./assets/fonts/cristone/Cristone.eot) format("embedded-opentype");
   }
+
+  ::selection {
+    background-color: #ea580c;
+  }
 }
 
 @layer utilities {

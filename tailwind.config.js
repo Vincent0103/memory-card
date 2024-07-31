@@ -12,6 +12,7 @@ export default {
         cristone: ['Cristone', 'Divergentes', 'Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif']
       },
       colors: {
+        selection: "black",
         'custom-text': 'rgba(255, 255, 255, 0.87)',
         'custom-background': '#242424',
       },

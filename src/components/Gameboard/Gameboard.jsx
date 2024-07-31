@@ -70,16 +70,13 @@ const Gameboard = ({
       return result;
     };
 
-    const getUnclickedCharactersIds = () => {
+    const getNewShuffledCharacterIds = () => {
       // for easy and medium
       let desiredNumber = 2;
+
       if (difficultyData.difficulty === "hard") desiredNumber = 1;
 
-      return popCharacters(desiredNumber, unclickedIds);
-    };
-
-    const getNewShuffledCharacterIds = () => {
-      const unclickedShuffledIds = getUnclickedCharactersIds();
+      const unclickedShuffledIds = popCharacters(desiredNumber, unclickedIds);
       const clickedShuffledIds = popCharacters(
         clickedCharacterIds.length,
         clickedIds
