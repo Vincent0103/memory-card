@@ -10,7 +10,7 @@ import btnClickAudioOGG from "./assets/audios/btn-click.ogg";
 import btnClickAudioWAV from "./assets/audios/btn-click.wav";
 import easyMusicMP3 from "./assets/audios/music/buddy.mp3";
 import easyMusicWAV from "./assets/audios/music/buddy.wav";
-import LoseScreen from "./components/LoseScreen";
+import WinLoseScreen from "./components/WinLoseScreen";
 
 function App() {
   const musicRef = useRef(null);
@@ -19,10 +19,11 @@ function App() {
   const [isMusicOn, setIsMusicOn] = useState(false);
 
   const [gameState, setGameState] = useState({
-    isHome: true,
+    home: true,
     started: false,
     ended: false,
     retried: false,
+    won: false,
   });
 
   const handleMusicClick = () => {
@@ -33,10 +34,11 @@ function App() {
   const handleHomeClick = () => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
     handleGameState({
-      isHome: true,
+      home: true,
       started: false,
       ended: false,
       retried: false,
+      won: false,
     });
   };
 
@@ -76,12 +78,12 @@ function App() {
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}
           handleGameState={handleGameState}
-          hasGameStarted={gameState.started}
+          gameState={gameState}
           setIsMusicOn={setIsMusicOn}
         />
         <Gameboard
-          gameState={gameState}
           handleGameState={handleGameState}
+          gameState={gameState}
           isSoundEffectOn={isSoundEffectOn}
         />
         <div className="row-start-3 ml-1 flex justify-between w-full">
@@ -116,8 +118,9 @@ function App() {
           </div>
         </div>
       </div>
-      <LoseScreen
+      <WinLoseScreen
         hasGameEnded={gameState.ended}
+        hasWon={gameState.won}
         handleGameState={handleGameState}
         soundEffectAudioRef={soundEffectAudioRef}
         isSoundEffectOn={isSoundEffectOn}

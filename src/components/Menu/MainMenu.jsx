@@ -5,14 +5,14 @@ const MainMenu = ({
   soundEffectAudioRef,
   isSoundEffectOn,
   handleGameState,
-  hasGameStarted,
+  gameState,
 }) => {
   const handlePlayBtnClick = () => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    handleGameState({ isHome: false, started: true });
+    handleGameState({ home: false, started: true });
   };
 
-  const onGameStartTransitioner = hasGameStarted
+  const onGameStartTransitioner = (gameState.started)
     ? "translate-z-front opacity-0 pointer-events-none -z-10"
     : "absolute translate-z-idle opacity-1";
 

@@ -124,7 +124,7 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
 
       if (!characterData) return false;
       return Object.entries(characterData)
-        .filter(([key, _]) => key !== "id")
+        .filter(([key]) => key !== "id")
         .every(([_, value]) => value === null);
     };
 
@@ -217,14 +217,14 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
   );
 
   useEffect(() => {
-    if (gameState.retried || gameState.isHome) {
+    if (gameState.retried || gameState.home) {
       const dataObject = {
         started: true,
         ended: false,
         retried: false,
       };
 
-      if (gameState.isHome) dataObject.started = false;
+      if (gameState.home) dataObject.started = false;
 
       handleGameState(dataObject);
       handleClickedCharacterIds();
@@ -232,7 +232,7 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
       handleScores(true);
       handleDifficulty(true);
     }
-  }, [gameState.retried, gameState.isHome, handleDifficulty, handleGameState]);
+  }, [gameState.retried, gameState.home, handleDifficulty, handleGameState]);
 
   const handleCardClick = (animate, characterId) => {
     if (!animate) setIsCardClicked(false);
@@ -303,27 +303,29 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
           audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
           isOn={isSoundEffectOn}
         />
-        <Scoreboard hasGameStarted={gameState.started} {...scores} />
-        <CardsContainer>
-          {shuffledCharacterIds.map((shuffledId, index) => {
-            const characterIndex = characterImgs.findIndex(
-              ({ id }) => id === shuffledId
-            );
-            const currentCharacterImg = characterImgs[characterIndex];
+        <>
+          <Scoreboard hasGameStarted={gameState.started} {...scores} />
+          <CardsContainer>
+            {shuffledCharacterIds.map((shuffledId, index) => {
+              const characterIndex = characterImgs.findIndex(
+                ({ id }) => id === shuffledId
+              );
+              const currentCharacterImg = characterImgs[characterIndex];
 
-            return (
-              <Card
-                key={index}
-                characterImg={currentCharacterImg}
-                isCardClicked={isCardClicked}
-                handleCardClick={handleCardClick}
-                handleDoShuffleCards={handleDoShuffleCards}
-                currentRound={clickedCharacterIds.length + 1}
-              />
-            );
-          })}
-        </CardsContainer>
-        <DifficultyDisplayer difficulty={difficultyData.difficulty} />
+              return (
+                <Card
+                  key={index}
+                  characterImg={currentCharacterImg}
+                  isCardClicked={isCardClicked}
+                  handleCardClick={handleCardClick}
+                  handleDoShuffleCards={handleDoShuffleCards}
+                  currentRound={clickedCharacterIds.length + 1}
+                />
+              );
+            })}
+          </CardsContainer>
+          <DifficultyDisplayer difficulty={difficultyData.difficulty} />
+        </>
       </div>
     </>
   );
