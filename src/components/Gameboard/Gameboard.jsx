@@ -305,7 +305,7 @@ const Gameboard = ({
           isOn={isSoundEffectOn}
         />
         <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
-        <CardsContainer hasGameStarted={hasGameStarted}>
+        <CardsContainer>
           {shuffledCharacterIds.map((shuffledId, index) => {
             const characterIndex = characterImgs.findIndex(
               ({ id }) => id === shuffledId

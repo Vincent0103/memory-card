@@ -24,10 +24,18 @@ function App() {
     retried: false,
   });
 
-  const handleMusicClick = useCallback(() => {
+  const handleMusicClick = () => {
     setIsMusicOn(!isMusicOn);
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-  }, [isSoundEffectOn, isMusicOn]);
+  };
+
+  const handleHomeClick = () => {
+    handleGameState({
+      started: false,
+      ended: false,
+      retried: false,
+    });
+  };
 
   const handleSoundEffectClick = useCallback(() => {
     setIsSoundEffectOn((prev) => !prev);
@@ -61,6 +69,13 @@ function App() {
       />
       <BgVideo isMusicOn={isMusicOn} hasGameStarted={gameState.started} />
       <div className="grid grid-rows-[80px_1fr_80px] h-full w-full justify-items-center items-center">
+        <div className="justify-self-start ml-1 flex">
+          <SettingBtn
+            clickHandler={handleHomeClick}
+            showBtnCondition={gameState.started}
+            onPath={"M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"}
+          />
+        </div>
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}
@@ -100,6 +115,8 @@ function App() {
       <LoseScreen
         hasGameEnded={gameState.ended}
         handleGameState={handleGameState}
+        soundEffectAudioRef={soundEffectAudioRef}
+        isSoundEffectOn={isSoundEffectOn}
       />
     </div>
   );

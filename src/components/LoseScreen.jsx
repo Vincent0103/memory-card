@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import GameStateBtn from "./GameStateBtn";
 
-const LoseScreen = ({ hasGameEnded, handleGameState }) => {
+const LoseScreen = ({
+  hasGameEnded,
+  handleGameState,
+  soundEffectAudioRef,
+  isSoundEffectOn,
+}) => {
   const [showRetryBtn, setShowRetryBtn] = useState(false);
 
   const handleRetryBtnClick = () => {
+    if (isSoundEffectOn) soundEffectAudioRef.current.play();
     handleGameState({ ended: false, retried: true });
     setShowRetryBtn(false);
   };
@@ -27,12 +33,17 @@ const LoseScreen = ({ hasGameEnded, handleGameState }) => {
                 : "opacity-0 pointer-events-none"
             }`}
     >
-      <h1 className={`text-[10rem] leading-none font-cristone text-red-800 tracking-wide transition-transform
-        ${!showRetryBtn && "translate-y-16" }`}>
+      <h1
+        className={`text-[10rem] leading-none font-cristone text-red-800 tracking-wide transition-transform
+        ${!showRetryBtn && "translate-y-16"}`}
+      >
         YOU LOSE
       </h1>
-      <GameStateBtn clickHandler={handleRetryBtnClick} text={"RETRY"}
-      customStyling={`transition-slide ${showRetryBtn ? "translate-z-idle opacity-1" : "translate-z-back opacity-0"}`} />
+      <GameStateBtn
+        clickHandler={handleRetryBtnClick}
+        text={"RETRY"}
+        customStyling={`transition-slide ${showRetryBtn ? "translate-z-idle opacity-1" : "translate-z-back opacity-0 pointer-events-none"}`}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
-const Scoreboard = ({ hasGameStarted, currentScore, bestScore }) =>
-  hasGameStarted && (
+const Scoreboard = ({ currentScore, bestScore }) =>
+  (
     <div
       className="text-center font-bold text-white/90
   flex flex-col gap-2 self-end font-divergentes"
