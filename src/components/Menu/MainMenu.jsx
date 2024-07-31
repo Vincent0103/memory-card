@@ -9,7 +9,7 @@ const MainMenu = ({
 }) => {
   const handlePlayBtnClick = () => {
     if (isSoundEffectOn) soundEffectAudioRef.current.play();
-    handleGameState({ started: true });
+    handleGameState({ isHome: false, started: true });
   };
 
   const onGameStartTransitioner = hasGameStarted

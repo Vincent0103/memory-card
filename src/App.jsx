@@ -19,6 +19,7 @@ function App() {
   const [isMusicOn, setIsMusicOn] = useState(false);
 
   const [gameState, setGameState] = useState({
+    isHome: true,
     started: false,
     ended: false,
     retried: false,
@@ -31,6 +32,7 @@ function App() {
 
   const handleHomeClick = () => {
     handleGameState({
+      isHome: true,
       started: false,
       ended: false,
       retried: false,
@@ -84,8 +86,7 @@ function App() {
           setIsMusicOn={setIsMusicOn}
         />
         <Gameboard
-          hasGameStarted={gameState.started}
-          hasGameRetried={gameState.retried}
+          gameState={gameState}
           handleGameState={handleGameState}
           isSoundEffectOn={isSoundEffectOn}
         />

@@ -10,12 +10,7 @@ import cardsShuffledWAV from "../../assets/audios/cards-shuffled.wav";
 import DifficultyDisplayer from "./DifficultyDisplayer";
 
 methodsExpension();
-const Gameboard = ({
-  hasGameStarted,
-  hasGameRetried,
-  handleGameState,
-  isSoundEffectOn,
-}) => {
+const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
   const cardsShuffleAudioRef = useRef(null);
 
   // The ids are retrieved from theAnimeList website api
@@ -222,18 +217,22 @@ const Gameboard = ({
   );
 
   useEffect(() => {
-    if (hasGameRetried) {
-      handleGameState({
+    if (gameState.retried || gameState.isHome) {
+      const dataObject = {
         started: true,
         ended: false,
         retried: false,
-      });
+      };
+
+      if (gameState.isHome) dataObject.started = false;
+
+      handleGameState(dataObject);
       handleClickedCharacterIds();
       handleDoShuffleCards(true);
       handleScores(true);
       handleDifficulty(true);
     }
-  }, [hasGameRetried, handleDifficulty, handleGameState]);
+  }, [gameState.retried, gameState.isHome, handleDifficulty, handleGameState]);
 
   const handleCardClick = (animate, characterId) => {
     if (!animate) setIsCardClicked(false);
@@ -289,7 +288,7 @@ const Gameboard = ({
     }
   };
 
-  const onGameStartTransitioner = !hasGameStarted
+  const onGameStartTransitioner = !gameState.started
     ? "translate-z-back opacity-0 pointer-events-none"
     : "translate-z-idle opacity-1";
 
@@ -304,7 +303,7 @@ const Gameboard = ({
           audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
           isOn={isSoundEffectOn}
         />
-        <Scoreboard hasGameStarted={hasGameStarted} {...scores} />
+        <Scoreboard hasGameStarted={gameState.started} {...scores} />
         <CardsContainer>
           {shuffledCharacterIds.map((shuffledId, index) => {
             const characterIndex = characterImgs.findIndex(
