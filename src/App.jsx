@@ -73,7 +73,7 @@ function App() {
         isHandlingMusic={true}
       />
       <BgVideo isMusicOn={isMusicOn} hasGameStarted={gameState.started} />
-      <div className="grid grid-rows-[80px_1fr_80px] max-w-[1536px] h-full w-full justify-items-center items-center">
+      <div className="grid grid-rows-[80px_1fr_80px] max-2xl:grid-rows-[56px_1fr_56px] max-w-[1536px] h-full w-full justify-items-center items-center">
         <MainMenu
           soundEffectAudioRef={soundEffectAudioRef}
           isSoundEffectOn={isSoundEffectOn}

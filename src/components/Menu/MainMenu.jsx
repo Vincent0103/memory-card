@@ -20,14 +20,14 @@ const MainMenu = ({
     <div
       className={`${onGameStartTransitioner} justify-items-center items-center row-start-2 transition-slide`}
     >
-      <div className="relative w-min row-start-2 flex flex-col items-center gap-8 max-2xl:gap-6">
+      <div className="relative w-min row-start-2 flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
         <MenuTitle />
         <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"} />
         <div
           className="absolute max-w-[400px] max-2xl:max-w-[300px] bg-black/60 rounded-2xl backdrop-blur-xl border border-white/50 shadow-lg
-        top-[310px] max-2xl:top-[220px]"
+        top-[310px] max-2xl:top-[220px] max-md:top-[140px]"
         >
-          <p className="text-center drop-shadow-lg my-4 mx-6 max-2xl:text-xs max-2xl:my-3 max-2xl:mx-2">
+          <p className="text-center drop-shadow-lg my-4 mx-6 max-2xl:text-xs max-2xl:my-3 max-2xl:mx-2 max-md:my-2">
             For the best experience, please enable game music using the melody
             button below !
           </p>

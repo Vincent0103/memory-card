@@ -42,7 +42,7 @@ const WinLoseScreen = ({
   if (!gameState.won) {
     text = (
       <h1
-        className={`text-[10rem] leading-none font-cristone text-red-800 tracking-wide transition-transform
+        className={`text-[10rem] max-2xl:text-9xl max-md:text-7xl leading-none font-cristone text-red-800 tracking-wide transition-transform
         ${!showRetryBtn && "translate-y-16"}`}
       >
         YOU LOSE
@@ -54,14 +54,15 @@ const WinLoseScreen = ({
         className={`relative transition-transform ${!showRetryBtn && "translate-y-16"}`}
       >
         <h1
-          className={`text-[10rem] leading-none text-orange-300/90 tracking-wide
+          className={`text-[10rem] max-2xl:text-9xl max-md:text-6xl leading-none text-orange-300/90 tracking-wide
             font-extrabold`}
         >
           YOU WIN
         </h1>
         <h1
-          className={`absolute top-2 left-2 text-[10rem] leading-none text-black/50 tracking-wide
-            text-nowrap -z-[1] font-extrabold pointer-events-none select-none`}
+          className={`absolute top-2 left-2 max-md:top-1 max-md:left-1 text-[10rem]
+            max-2xl:text-9xl max-md:text-6xl leading-none text-black/50 tracking-wide text-nowrap
+            -z-[1] font-extrabold pointer-events-none select-none`}
         >
           YOU WIN
         </h1>
@@ -74,7 +75,7 @@ const WinLoseScreen = ({
       <div
         className={`fixed top-0 left-0 w-full h-full ${!gameState.won ? "bg-black/80 gap-8" : "gap-14"} backdrop-blur-3xl
               flex flex-col justify-center items-center transition-opacity
-              gap-8 ${onEndTransitioner}`}
+              gap-8 max-md:gap-5 ${onEndTransitioner}`}
       >
         {text}
         <GameStateBtn
