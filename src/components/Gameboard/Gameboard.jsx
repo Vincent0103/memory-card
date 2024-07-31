@@ -11,6 +11,7 @@ import DifficultyDisplayer from "./DifficultyDisplayer";
 
 methodsExpension();
 const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
+  const exceedingElementRef = useRef(null);
   const cardsShuffleAudioRef = useRef(null);
 
   // The ids are retrieved from theAnimeList website api
@@ -58,7 +59,7 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
 
     const popCharacters = (n, array) => {
       const result = [];
-      const loopCondition = (n > array.length) ? array : n;
+      const loopCondition = n > array.length ? array : n;
       for (let i = 0; i < loopCondition; i += 1) {
         const index = Math.floor(Math.random() * array.length);
         result.push(array.splice(index, 1)[0]);
@@ -95,8 +96,6 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
         );
       }
 
-      console.log(unclickedShuffledIds, compensatedShuffledIds, clickedShuffledIds);
-
       return [
         ...unclickedShuffledIds,
         ...compensatedShuffledIds,
@@ -116,10 +115,6 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
     difficultyData.visibleCards,
     doShuffleCards,
   ]);
-
-  const handleDoShuffleCards = (canShuffleCards) => {
-    setDoShuffleCards(canShuffleCards);
-  };
 
   useEffect(() => {
     const hasNoCharacterData = (index) => {
@@ -198,6 +193,10 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
     });
   }, [characterImgs, characterIds]);
 
+  const handleDoShuffleCards = (canShuffleCards) => {
+    setDoShuffleCards(canShuffleCards);
+  };
+
   const handleDifficulty = useCallback(
     (resetDifficulty) => {
       const currentRounds = clickedCharacterIds.length + 1;
@@ -205,7 +204,8 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
       let visibleCards = 0;
       if (resetDifficulty || (currentRounds >= 1 && currentRounds < 5)) {
         difficulty = "easy";
-        visibleCards = 4;
+        // visibleCards = 4;
+        visibleCards = 12;
       } else if (currentRounds >= 5 && currentRounds < 13) {
         difficulty = "medium";
         visibleCards = 7;
@@ -310,8 +310,9 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
   return (
     <>
       <div
+        ref={exceedingElementRef}
         className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
-        grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[80%] h-full`}
+        grid grid-rows-[1fr_auto_1fr] gap-5 max-w-[1536px] mx-4`}
       >
         <Audio
           audioRef={cardsShuffleAudioRef}
