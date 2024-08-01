@@ -1,4 +1,3 @@
-import { getAudioExtension } from '../utils/utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe('methodsExpension module', () => {
@@ -56,34 +55,5 @@ describe('methodsExpension module', () => {
     });
 
     expect([8, 4].shuffle()).toEqual([8, 4]);
-  });
-});
-
-describe('getAudioExtension', () => {
-  it('should return the correct extension for valid files', () => {
-    expect(getAudioExtension('song.mp3')).toBe('mp3');
-    expect(getAudioExtension('track.wav')).toBe('wav');
-    expect(getAudioExtension('audio.ogg')).toBe('ogg');
-    expect(getAudioExtension('music.aac')).toBe('aac');
-  });
-
-  it('should throw an error for invalid extensions', () => {
-    expect(() => getAudioExtension('file.txt')).toThrow('Invalid file extension');
-    expect(() => getAudioExtension('document.pdf')).toThrow('Invalid file extension');
-  });
-
-  it('should handle case insensitivity', () => {
-    expect(getAudioExtension('SONG.MP3')).toBe('mp3');
-    expect(getAudioExtension('Track.WAV')).toBe('wav');
-    expect(getAudioExtension('Audio.Ogg')).toBe('ogg');
-    expect(getAudioExtension('Music.AAC')).toBe('aac');
-  });
-
-  it('should throw an error for files with no extension', () => {
-    expect(() => getAudioExtension('file')).toThrow('Invalid file extension');
-  });
-
-  it('should throw an error for hidden files', () => {
-    expect(() => getAudioExtension('.hiddenfile')).toThrow('Invalid file extension');
   });
 });

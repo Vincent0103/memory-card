@@ -87,6 +87,7 @@ const WinLoseScreen = ({
       <AudioJSX
         audioRef={winMusicRef}
         audioFileUrls={[winMusicMP3, winMusicWAV]}
+        extensions={["mp3", "wav"]}
         isOn={isMusicOn}
         playCondition={gameState.won && !gameState.home}
         isHandlingMusic={true}

@@ -61,11 +61,13 @@ function App() {
       <AudioJSX
         audioRef={soundEffectAudioRef}
         audioFileUrls={[btnClickAudioMP3, btnClickAudioWAV, btnClickAudioOGG]}
+        extensions={["mp3", "wav", "ogg"]}
         isOn={isSoundEffectOn}
       />
       <AudioJSX
         audioRef={musicRef}
         audioFileUrls={[easyMusicMP3, easyMusicWAV]}
+        extensions={["mp3", "wav"]}
         isOn={isMusicOn}
         playCondition={gameState.started && !gameState.ended}
         pitchCondition={gameState.ended && !gameState.won}

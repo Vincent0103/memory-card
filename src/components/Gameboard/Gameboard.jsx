@@ -4,7 +4,7 @@ import Card from "./Card";
 import methodsExpension from "../utils/utils";
 import CardsContainer from "./CardsContainer";
 import Scoreboard from "./Scoreboard";
-import Audio from "../utils/Audio";
+import AudioJSX from "../utils/Audio";
 import cardsShuffledMP3 from "../../assets/audios/cards-shuffled.mp3";
 import cardsShuffledWAV from "../../assets/audios/cards-shuffled.wav";
 import DifficultyDisplayer from "./DifficultyDisplayer";
@@ -313,9 +313,10 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
         className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
         grid grid-rows-[auto_auto_auto] gap-5 max-2xl:gap-3 max-w-[1536px] mx-2`}
       >
-        <Audio
+        <AudioJSX
           audioRef={cardsShuffleAudioRef}
           audioFileUrls={[cardsShuffledMP3, cardsShuffledWAV]}
+          extensions={["mp3", "wav"]}
           isOn={isSoundEffectOn}
         />
         <>

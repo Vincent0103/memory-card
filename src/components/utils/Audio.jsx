@@ -1,9 +1,9 @@
-import { getAudioExtension } from "./utils";
 import { useEffect } from "react";
 
 const AudioJSX = ({
   audioRef,
   audioFileUrls,
+  extensions,
   isOn,
   playCondition,
   pitchCondition,
@@ -28,8 +28,7 @@ const AudioJSX = ({
     <audio ref={audioRef} className="hidden" loop={hasLoop} muted={!isOn}>
       {audioFileUrls &&
         audioFileUrls.map((fileUrl, i) => {
-          const extension = getAudioExtension(fileUrl);
-          return <source key={i} src={fileUrl} type={`audio/${extension}`} />;
+          return <source key={i} src={fileUrl} type={`audio/${extensions[i]}`} />;
         })}
       Your browser does not support the audio element
     </audio>
