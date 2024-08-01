@@ -325,7 +325,7 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
               const characterIndex = characterImgs.findIndex(
                 ({ id }) => id === shuffledId
               );
-              const currentCharacterImg = characterImgs[characterIndex];
+              const currentCharacterImg = characterImgs[characterIndex] || {};
 
               return (
                 <Card

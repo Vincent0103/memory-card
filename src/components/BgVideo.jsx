@@ -1,4 +1,3 @@
-import { useRef, useEffect } from "react";
 import bgVideoMP4 from "../assets/videos/bgvideo.mp4";
 import bgVideoWEBM from "../assets/videos/bgvideo.webm";
 
