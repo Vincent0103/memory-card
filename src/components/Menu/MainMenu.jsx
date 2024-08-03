@@ -18,9 +18,9 @@ const MainMenu = ({
 
   return (
     <div
-      className={`${onGameStartTransitioner} justify-items-center items-center row-start-2 transition-slide`}
+      className={`${onGameStartTransitioner} row-start-2 transition-slide`}
     >
-      <div className="relative w-min row-start-2 flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
+      <div className="relative w-min flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
         <MenuTitle />
         <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"} />
         <div
