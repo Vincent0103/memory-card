@@ -33,7 +33,6 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
     }
   }, [hasGameStarted, isMusicOn]);
 
-  console.log(imgFallbackAudioRef.current);
   return (
     canShowVideo
     ?
