@@ -310,8 +310,8 @@ const Gameboard = ({ gameState, handleGameState, isSoundEffectOn }) => {
     <>
       <div
         ref={exceedingElementRef}
-        className={`absolute row-start-2 ${onGameStartTransitioner} transition-slide
-        grid grid-rows-[auto_auto_auto] gap-5 max-2xl:gap-3 max-w-[1536px] mx-2`}
+        className={`absolute row-start-2 row-end-2 ${onGameStartTransitioner} transition-slide
+        grid grid-rows-[1fr_auto_1fr] gap-5 max-2xl:gap-3 max-w-[1536px] h-full mx-2`}
       >
         <AudioJSX
           audioRef={cardsShuffleAudioRef}

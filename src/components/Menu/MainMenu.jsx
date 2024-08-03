@@ -12,15 +12,16 @@ const MainMenu = ({
     handleGameState({ home: false, started: true, won: false });
   };
 
-  const onGameStartTransitioner = (gameState.started)
+  const onGameStartTransitioner = gameState.started
     ? "absolute translate-z-front opacity-0 pointer-events-none -z-10"
     : "absolute translate-z-idle opacity-1";
 
   return (
     <div
-      className={`${onGameStartTransitioner} row-start-1 transition-slide`}
+      className={`${onGameStartTransitioner} row-start-2 row-end-2 transition-slide
+      top-0 left-0 w-full h-full flex justify-center items-center`}
     >
-      <div className="relative w-min flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
+      <div className="relative w-min h-min flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
         <MenuTitle />
         <GameStateBtn clickHandler={handlePlayBtnClick} text={"PLAY"} />
         <div

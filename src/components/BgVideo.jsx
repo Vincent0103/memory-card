@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import bgVideoFallback from "../assets/images/bgVideoFallback.png";
+import bgVideoFallbackJPG from "../assets/images/bgVideoFallback.jpg";
+import bgVideoFallbackWEBP from "../assets/images/bgVideoFallback.webp";
 import bgVideoMP4 from "../assets/videos/bgvideo.mp4";
 import bgVideoWEBM from "../assets/videos/bgvideo.webm";
 import { useEffect } from "react";
@@ -44,7 +45,10 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
     </div>
     :
     <div className="absolute top-0 left-0 h-full w-full -z-10 bg-black">
-      <img className="h-full w-full object-cover" src={bgVideoFallback} alt="Visual of the Chainsaw Man Anime" />
+      <picture>
+        <source srcSet={bgVideoFallbackWEBP} type="image/webp" />
+        <img src={bgVideoFallbackJPG} alt="" />
+      </picture>
     </div>
   )
 };
