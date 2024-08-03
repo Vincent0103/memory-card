@@ -3,7 +3,10 @@ import bgVideoFallbackJPG from "../assets/images/bgVideoFallback.jpg";
 import bgVideoFallbackWEBP from "../assets/images/bgVideoFallback.webp";
 import bgVideoMP4 from "../assets/videos/bgvideo.mp4";
 import bgVideoWEBM from "../assets/videos/bgvideo.webm";
+import MainMenuMP3 from "../assets/audios/music/main-menu.mp3";
+import MainMenuWAV from "../assets/audios/music/main-menu.wav";
 import { useEffect } from "react";
+import AudioJSX from "./utils/Audio";
 
 const canAutoplayVideo = (videoElement, mutedCondition) => {
   return new Promise((resolve) => {
@@ -18,6 +21,7 @@ const canAutoplayVideo = (videoElement, mutedCondition) => {
 }
 
 const BgVideo = ({ isMusicOn, hasGameStarted }) => {
+  const imgFallbackAudioRef = useRef(null);
   const videoElement = useRef(null);
   const [canShowVideo, setCanShowVideo] = useState(true);
 
@@ -29,6 +33,7 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
     }
   }, [hasGameStarted, isMusicOn]);
 
+  console.log(imgFallbackAudioRef.current);
   return (
     canShowVideo
     ?
@@ -49,6 +54,16 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
         <source srcSet={bgVideoFallbackWEBP} type="image/webp" />
         <img className="h-full w-full object-cover" src={bgVideoFallbackJPG} alt="" />
       </picture>
+      <AudioJSX
+        audioRef={imgFallbackAudioRef}
+        audioFileUrls={[MainMenuMP3, MainMenuWAV]}
+        extensions={["mp3", "wav"]}
+        isOn={isMusicOn}
+        mutedCondition={!isMusicOn || hasGameStarted}
+        autoPlay={true}
+        hasLoop={true}
+        isHandlingMusic={true}
+      />
     </div>
   )
 };
