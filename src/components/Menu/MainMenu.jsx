@@ -13,12 +13,12 @@ const MainMenu = ({
   };
 
   const onGameStartTransitioner = (gameState.started)
-    ? "translate-z-front opacity-0 pointer-events-none -z-10"
+    ? "absolute translate-z-front opacity-0 pointer-events-none -z-10"
     : "absolute translate-z-idle opacity-1";
 
   return (
     <div
-      className={`${onGameStartTransitioner} row-start-2 transition-slide w-full h-full flex justify-center items-center`}
+      className={`${onGameStartTransitioner} row-start-1 transition-slide`}
     >
       <div className="relative w-min flex flex-col items-center gap-8 max-2xl:gap-6 max-md:gap-4">
         <MenuTitle />
