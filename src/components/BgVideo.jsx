@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import bgVideoFallback from "../assets/images/bgVideoFallback.png";
 import bgVideoMP4 from "../assets/videos/bgvideo.mp4";
 import bgVideoWEBM from "../assets/videos/bgvideo.webm";
 import { useEffect } from "react";
@@ -17,21 +18,20 @@ const canAutoplayVideo = (videoElement, mutedCondition) => {
 
 const BgVideo = ({ isMusicOn, hasGameStarted }) => {
   const videoElement = useRef(null);
+  const [canShowVideo, setCanShowVideo] = useState(true);
 
   useEffect(() => {
     if (videoElement.current) {
       canAutoplayVideo(videoElement.current, !isMusicOn || hasGameStarted).then((canAutoplay) => {
-        if (canAutoplay) {
-          console.log("Video can autoplay");
-        } else {
-          console.log("Video cannot autoplay");
-        }
+        if (!canAutoplay) setCanShowVideo(false);
       })
     }
-  });
+  }, [hasGameStarted, isMusicOn]);
 
   return (
-    <div className="absolute top-0 left-0 h-full w-full -z-10 bg-orange-950">
+    canShowVideo
+    ?
+    <div className="absolute top-0 left-0 h-full w-full -z-10 bg-black">
       <video
         ref={videoElement}
         className="h-full w-full object-cover"
@@ -41,6 +41,10 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
         <source src={bgVideoMP4} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+    </div>
+    :
+    <div className="absolute top-0 left-0 h-full w-full -z-10 bg-black">
+      <img className="h-full w-full object-cover" src={bgVideoFallback} alt="Visual of the Chainsaw Man Anime" />
     </div>
   )
 };
