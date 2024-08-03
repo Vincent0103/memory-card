@@ -47,7 +47,7 @@ const BgVideo = ({ isMusicOn, hasGameStarted }) => {
     <div className="absolute top-0 left-0 h-full w-full -z-10 bg-black">
       <picture>
         <source srcSet={bgVideoFallbackWEBP} type="image/webp" />
-        <img src={bgVideoFallbackJPG} alt="" />
+        <img className="h-full w-full object-cover" src={bgVideoFallbackJPG} alt="" />
       </picture>
     </div>
   )
