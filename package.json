@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "immer": "^10.1.1",
+    "memory-card": ".",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-parallax-tilt": "^1.7.234",
